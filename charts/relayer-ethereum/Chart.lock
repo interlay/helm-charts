@@ -1,6 +1,0 @@
-dependencies:
-- name: bitcoind
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.0.0
-digest: sha256:871a1174585fcd59cf47b4694ab2c4ce255c0df59727921235c92a7362d54377
-generated: "2020-06-09T13:09:58.892965164+01:00"
