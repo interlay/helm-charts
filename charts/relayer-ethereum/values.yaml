@@ -1,0 +1,79 @@
+replicaCount: 1
+
+image:
+    repository: "registry.gitlab.com/interlay/relayer-ethereum"
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart version.
+    tag: "4a674c30"
+
+maxBatchSize: 20
+
+imagePullSecrets:
+    - name: regcred
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+environment:
+    inline:
+        RUST_LOG: info
+        BITCOIN_RPC_URL: http://bitcoin-bitcoind:18332
+        BITCOIN_RPC_USER: rpcuser
+        BITCOIN_RPC_PASS: rpcpassword
+        ETHEREUM_CONTRACT_ADDRESS: 43E5180B3F3C29F0C8BE0B100f48893993ce3600
+    secrets:
+        - name: ETHEREUM_RPC_URL
+          secret: ethereum
+          key: url
+        - name: ETHEREUM_ACCOUNT_ADDRESS
+          secret: ethereum
+          key: address
+        - name: ETHEREUM_PRIVATE_KEY
+          secret: ethereum
+          key: privateKey
+
+bitcoind:
+    configurationFile:
+        bitcoin.conf: |-
+            server=1
+            testnet=1
+            printtoconsole=1
+            rpcuser=rpcuser
+            rpcpassword=rpcpassword
+
+    persistence:
+        size: 100Gi
+        existingClaim: bitcoin-bitcoind
