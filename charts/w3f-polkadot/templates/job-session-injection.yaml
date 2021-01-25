@@ -1,0 +1,38 @@
+{{ if and .Values.validator .Values.sessionInjection.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "polkadot-deployer.sessionInjectionName" . }}
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ include "polkadot-deployer.sessionInjectionName" . }}
+      containers:
+      - name: {{ include "polkadot-deployer.sessionInjectionName" . }}
+        image: {{ .Values.initImage.repo }}:{{ .Values.initImage.tag }}
+        command:
+        - /app/inject_session_keys.sh
+        - {{ include "polkadot-deployer.rpcService" . }}:{{ .Values.rpcPort }}
+        - {{ include "polkadot-deployer.statefulsetName" . }}
+        volumeMounts:
+        - name: session-keys
+          mountPath: /keys
+      restartPolicy: Never
+      volumes:
+      - name: session-keys
+        secret:
+          secretName: {{ include "polkadot-deployer.sessionKey" . }}
+          defaultMode: 256
+          items:
+          - key: grandpa-session-key
+            path: grandpa-session
+          - key: babe-session-key
+            path: babe-session
+          - key: imonline-session-key
+            path: imonline-session
+          - key: parachain-session-key
+            path: parachain-session
+          - key: audi-session-key
+            path: audi-session
+  backoffLimit: 120
+{{ end }}

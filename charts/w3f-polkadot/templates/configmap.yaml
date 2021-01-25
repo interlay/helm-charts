@@ -1,0 +1,80 @@
+{{ if .Values.createConfigMap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "polkadot-deployer.custom-chainspec-configmap" . }}
+data:
+  custom_chainspec.json: |-
+    {{- $totalItems := len .Values.chainspec.addresses.stash }}
+    {{- $lastIndex := sub $totalItems 1 }}
+    {
+      "name": {{ .Values.networkName | quote }},
+      "id": {{ .Values.networkName | quote }},
+      "bootNodes": [
+        {{- $lastBootIndex := sub (len .Values.bootNodes) 1}}
+        {{- range $index, $value := .Values.bootNodes }}
+        {{ $value | quote }}{{- if ne $index $lastBootIndex }},{{- end }}
+        {{- end }}
+      ],
+      "protocolId": "dot",
+      "properties": {
+        "tokenDecimals": 15
+      },
+      "genesis": {
+        "runtime": {
+          "palletBalances": {
+            "balances": [
+              {{- range $index, $value := .Values.chainspec.addresses.stash }}
+              [
+                {{ $value | quote }},
+                1048576000000000000
+              ]{{- if ne $index $lastIndex }},{{- end }}
+              {{- end }}
+            ]
+          },
+          "palletSession": {
+            "keys": [
+              {{- $grandpaSessionKeys := .Values.chainspec.addresses.session_grandpa }}
+              {{- $babeSessionKeys := .Values.chainspec.addresses.session_babe }}
+              {{- $imonlineSessionKeys := .Values.chainspec.addresses.session_imonline }}
+              {{- $parachainSessionKeys := .Values.chainspec.addresses.session_parachain }}
+              {{- $audiSessionKeys := .Values.chainspec.addresses.session_audi }}
+
+              {{- range $index, $value := .Values.chainspec.addresses.stash }}
+              [
+                {{ $value | quote }},
+                {{ $value | quote }},
+                {
+                  "grandpa": {{ index $grandpaSessionKeys $index | quote }},
+                  "babe": {{ index $babeSessionKeys $index | quote }},
+                  "parachain_validator": {{ index $parachainSessionKeys $index | quote }},
+                  "im_online": {{ index $imonlineSessionKeys $index | quote }},
+                  "authority_discovery": {{ index $audiSessionKeys $index | quote }}
+                }
+              ]{{- if ne $index $lastIndex }},{{- end }}
+              {{- end }}
+            ]
+          },
+          "palletStaking": {
+            "validatorCount": {{ $totalItems }},
+            "invulnerables": [
+              {{- range $index, $value := .Values.chainspec.addresses.stash }}
+              {{ $value | quote }}{{- if ne $index $lastIndex }},{{- end }}
+              {{- end }}
+            ],
+            "stakers": [
+              {{- $controllers := .Values.chainspec.addresses.controller }}
+              {{- range $index, $value := .Values.chainspec.addresses.stash }}
+              [
+                {{ $value | quote }},
+                {{ index $controllers $index | quote }},
+                5000,
+                "Validator"
+              ]{{- if ne $index $lastIndex }},{{- end }}
+              {{- end }}
+            ]
+          }
+        }
+      }
+    }
+{{ end }}

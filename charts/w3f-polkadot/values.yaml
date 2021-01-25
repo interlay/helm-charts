@@ -1,0 +1,93 @@
+image:
+  repo: parity/polkadot
+  tag: v0.8.27
+
+initImage:
+  repo: web3f/polkadot-deployer
+  tag: 03c71cbe8e96cb241f6d0ca7ba1103c1a82f12e5
+
+name: testnet-0-0
+deploymentName: testnet-0
+networkName: testnet
+
+chainspec:
+  preset: false
+  custom: true
+  basePath: "/chainspec"
+  name: "chainspec.json"
+  addresses:
+    stash: ["stash_key_1", "stash_key2"]
+    controller: ["controller_key_1", "controller_key2"]
+
+keys:
+  session_grandpa: "session_key"
+  session_babe: "session_key"
+  session_imonline: "session_key"
+  session_parachain: "session_key"
+  session_audi: "session_key"
+
+bootNodes:
+- "/dns4/polkadot-node-0/tcp/30333/p2p/QmRpheLN4JWdAnY7HGJfWFNbfkQCb6tFf4vvA6hgjMZKrR"
+
+createBootnodeService: false
+createConfigMap: false
+
+validator: true
+
+resources: {}
+#  requests:
+#    memory: "5Gi"
+#    cpu: "1.5"
+
+persistence:
+  enabled: false
+  dataSize: 200Gi
+  chainspecSize: 1Gi
+  accessModes: [ "ReadWriteOnce" ]
+
+dnsNameservers:
+- 173.245.58.93
+- 173.245.59.247
+
+telemetry: ""
+
+p2pPort: 30333
+rpcPort: 9933
+metricsPort: 9615
+
+extraArgs:
+  validator: ""
+  bootnode: ""
+  common: ""
+
+extraBootnodes: []
+
+local: false
+
+nodeRestart:
+  enabled: false
+  schedule: "0 4,12,20 * * *"
+
+sessionInjection:
+  enabled: true
+
+unsafeEndpointAccess: true
+
+binaryName: polkadot
+
+monitoring: false
+
+alertRulesLabels:
+  app: polkadot
+
+serviceMonitorLabels:
+  release: prometheus-operator
+
+inPeers: "500"
+
+# imagePullSecret:
+#   secretName: docker-registry-secret          #k8s secret name
+#   imageCredentials:
+#     registry: registry.digitalocean.com       #docker registry url
+#     username: username                        #registry username
+#     password: password                        #registry password

@@ -1,0 +1,222 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "polkadot-deployer.statefulsetName" . }}
+  labels:
+    node: {{ .Release.Name }}
+    app: {{ .Release.Name }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      node: {{ .Release.Name }}
+      app: {{ .Release.Name }}
+  serviceName: {{ include "polkadot-deployer.statefulsetName" . }}
+  template:
+    metadata:
+      labels:
+        node: {{ .Release.Name }}
+        app: {{ .Release.Name }}
+    spec:
+      {{- if not .Values.local }}
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
+      {{- end }}
+      {{- if .Values.dnsNameservers }}
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+{{ toYaml .Values.dnsNameservers | indent 8 }}
+      {{ end }}
+      initContainers:
+      {{- if .Values.local }}
+      - name: volume-mount-permissions-data
+        image: busybox
+        command: ["sh", "-c", "chown -R 1000:1000 /data"]
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      {{- end }}
+      {{- if not .Values.chainspec.preset }}
+      - name: volume-mount-permissions-chainspec
+        image: busybox
+        command: ["sh", "-c", "chown -R 1000:1000 /chainspec"]
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
+        volumeMounts:
+        - name: chainspec
+          mountPath: /chainspec
+      - name: {{ .Release.Name }}-init
+        image: {{ .Values.initImage.repo }}:{{ .Values.initImage.tag }}
+        command:
+        {{- if .Values.chainspec.custom }}
+        - /app/merge_chainspec.sh
+        - /app/custom_chainspec.json
+        {{- else }}
+        - cp
+        - /app/{{ .Values.chainspec.name }}
+        {{- end }}
+        - {{ include "polkadot-deployer.chainspecName" . }}
+        volumeMounts:
+        - name: chainspec
+          mountPath: {{ .Values.chainspec.basePath }}
+        {{- if .Values.chainspec.custom }}
+        - name: custom-chainspec
+          mountPath: /app/custom_chainspec.json
+          subPath: custom_chainspec.json
+        {{- end }}
+      {{- end }}
+      {{- if .Values.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecret.secretName }}
+      {{- end }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.image.repo }}:{{ .Values.image.tag }}
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - exec /usr/bin/{{ .Values.binaryName | default "polkadot" }}
+          {{- $chainspec := include "polkadot-deployer.chainspecName" . -}}
+          {{- if $chainspec }}
+          --chain={{ $chainspec }}
+          {{- end }}
+          --name={{ .Values.name }}
+          -d=/data
+          {{- if .Values.unsafeEndpointAccess }}
+          --unsafe-rpc-external
+          --unsafe-ws-external
+          --rpc-methods=Unsafe
+          {{- else }}
+          --rpc-external
+          --ws-external
+          {{- end }}
+          --rpc-cors all
+          --port {{ .Values.p2pPort }}
+        {{- if .Values.nodeKey }}
+          --node-key=$(cat /etc/polkadot/node-key)
+        {{- end }}
+        {{- if .Values.validator }}
+          --validator
+        {{- if .Values.extraArgs.validator }}
+          {{ .Values.extraArgs.validator }}
+        {{- end }}
+        {{- else if .Values.inPeers }}
+          --in-peers {{ .Values.inPeers }}
+        {{- if .Values.extraArgs.bootnode }}
+          {{ .Values.extraArgs.bootnode }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.telemetry }}
+          --telemetry-url '{{ .Values.telemetry }} 1'
+        {{- end }}
+        {{- if .Values.extraArgs.common }}
+          {{ .Values.extraArgs.common }}
+        {{- end }}
+        {{- if .Values.monitoring }}
+          --prometheus-external
+        {{- end }}
+        {{- range $value := .Values.extraBootnodes }}
+          --bootnodes={{ $value }}
+        {{- end }}
+        ports:
+        - containerPort: {{ .Values.p2pPort }}
+          name: p2p
+        - containerPort: {{ .Values.rpcPort }}
+          name: http-rpc
+        - containerPort: 9944
+          name: websocket-rpc
+        - containerPort: {{ .Values.metricsPort }}
+          name: metrics
+        readinessProbe:
+          failureThreshold: 100
+          httpGet:
+            path: /health
+            port: http-rpc
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          failureThreshold: 100
+          httpGet:
+            path: /health
+            port: http-rpc
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        {{- if not .Values.chainspec.preset }}
+        - name: chainspec
+          mountPath: {{ .Values.chainspec.basePath }}
+        {{- end }}
+        {{- if .Values.nodeKey }}
+        - name: node-key
+          mountPath: /etc/polkadot/node-key
+          subPath: node-key
+        {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      {{- if or .Values.nodeKey .Values.chainspec.custom }}
+      volumes:
+      {{- if .Values.nodeKey }}
+      - name: node-key
+        secret:
+          secretName: {{ include "polkadot-deployer.nodeKey" . }}
+          {{- if .Values.local }}
+          defaultMode: 511
+          {{- else }}
+          defaultMode: 256
+          {{- end }}
+          items:
+          - key: node-key
+            path: node-key
+      {{- end }}
+      {{- if .Values.chainspec.custom }}
+      - name: custom-chainspec
+        configMap:
+          name: {{ include "polkadot-deployer.custom-chainspec-configmap" . }}
+      {{- end }}
+      {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      {{- if .Values.persistence.enabled }}
+      accessModes: {{ .Values.persistence.accessModes }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.dataSize }}
+      {{- else }}
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 3Gi
+      {{- end }}
+  {{- if not .Values.chainspec.preset }}
+  - metadata:
+      name: chainspec
+    spec:
+      {{- if .Values.persistence.enabled }}
+      accessModes: {{ .Values.persistence.accessModes }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.chainspecSize }}
+      {{- else }}
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      {{- end }}
+  {{ end }}

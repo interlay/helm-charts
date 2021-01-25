@@ -1,0 +1,14 @@
+{{ if .Values.createBootnodeService -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "polkadot-deployer.bootnodeService" . }}
+  labels:
+    node: {{ .Release.Name }}
+spec:
+  ports:
+  - port: {{ .Values.p2pPort }}
+    name: p2p
+  selector:
+    node: {{ .Release.Name }}
+{{ end }}
