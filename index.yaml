@@ -25,4 +25,26 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/bitcoind-1.1.0-5/bitcoind-1.1.0-5.tgz
     version: 1.1.0-5
+  postgres-operator:
+  - apiVersion: v1
+    appVersion: 1.6.0
+    created: "2021-01-25T09:54:13.235895747Z"
+    description: Postgres Operator creates and manages PostgreSQL clusters running in Kubernetes
+    digest: 569e5b4afaa5645d51b3352920f785a920e756faffd2c9eb45adb27af8bd6272
+    home: https://github.com/zalando/postgres-operator
+    keywords:
+    - postgres
+    - operator
+    - cloud-native
+    - patroni
+    - spilo
+    maintainers:
+    - email: opensource@zalando.de
+      name: Zalando
+    name: postgres-operator
+    sources:
+    - https://github.com/zalando/postgres-operator
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/postgres-operator-1.6.0/postgres-operator-1.6.0.tgz
+    version: 1.6.0
 generated: "2021-01-25T09:50:54.367848564Z"
