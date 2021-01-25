@@ -25,6 +25,23 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/bitcoind-1.1.0-5/bitcoind-1.1.0-5.tgz
     version: 1.1.0-5
+  polkadot:
+  - apiVersion: v1
+    appVersion: 0.2.0
+    created: "2021-01-25T14:22:37.360906184Z"
+    description: Polkadot Node Implementation
+    digest: dd773d6405381829b836155cb04a57c4aad6ec084851fb2eabba630b3e95ee5f
+    home: https://polkadot.network/
+    icon: https://polkadot.network/favicon.ico
+    maintainers:
+    - email: devops-team@parity.io
+      name: Paritytech Devops Team
+    name: polkadot
+    sources:
+    - https://github.com/paritytech/polkadot/
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkadot-0.2.3-1/polkadot-0.2.3-1.tgz
+    version: 0.2.3-1
   postgres-operator:
   - apiVersion: v1
     appVersion: 1.6.0
