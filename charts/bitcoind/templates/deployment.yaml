@@ -1,0 +1,147 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "bitcoind.fullname" . }}
+  labels:
+    app: {{ template "bitcoind.name" . }}
+    chart: {{ template "bitcoind.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    configmap.reloader.stakater.com/reload: {{ template "bitcoind.fullname" . }}
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ template "bitcoind.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "bitcoind.name" . }}
+        release: {{ .Release.Name }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: {{ .Values.metrics.port | quote }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- if .Values.configurationFile }}
+      initContainers:
+        - name: copy-bitcoind-config
+          image: busybox
+          command: ['sh', '-c', 'cp /configmap/bitcoin.conf /bitcoin/.bitcoin/bitcoin.conf']
+          volumeMounts:
+            - name: configmap
+              mountPath: /configmap
+            - name: config
+              mountPath: /bitcoin/.bitcoin/
+      {{- end }}
+      containers:
+        - name: {{ template "bitcoind.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+            - name: rpc
+              containerPort: {{ .Values.service.rpcPort }}
+            - name: p2p
+              containerPort: {{ .Values.service.p2pPort }}
+            - name: testnet
+              containerPort: {{ .Values.service.testnetPort }}
+            - name: testnetp2pport
+              containerPort: {{ .Values.service.testnetP2pPort }}
+          volumeMounts:
+            - name: data
+              mountPath: /home/bitcoin/.bitcoin/
+            {{- if .Values.configurationFile }}
+            - name: config
+              mountPath: /home/bitcoin/.bitcoin/bitcoin.conf
+              subPath: bitcoin.conf
+            {{- end }}
+        - name: metrics-exporter
+          image: jvstein/bitcoin-prometheus-exporter:v0.5.0
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          volumeMounts:
+            {{- if .Values.configurationFile }}
+            - name: config
+              mountPath: /home/bitcoin/.bitcoin/bitcoin.conf
+              subPath: bitcoin.conf
+            {{- end }}
+          ports:
+            - name: exporeter
+              containerPort: {{ int .Values.metrics.port }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.metrics.port }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.metrics.port }}
+          env:
+            - name: METRICS_PORT
+              value: {{ .Values.metrics.port | quote }}
+            - name: BITCOIN_RPC_PORT
+              value: {{ .Values.rpcPort | quote }}
+            - name: BITCOIN_RPC_HOST
+              value: localhost
+            - name: BITCOIN_RPC_USER
+              value: {{ .Values.rpcUser | quote }}
+            - name: BITCOIN_RPC_PASSWORD
+              value: {{ .Values.rpcPassword | quote }}
+      {{- if .Values.electrs.enabled }}
+        - name: electrs
+          image: {{ .Values.electrs.image }}
+          imagePullPolicy: {{ .Values.electrs.pullPolicy | quote }}
+          args:
+            - /usr/local/bin/electrs
+            - --daemon-dir=/home/bitcoin/.bitcoin/
+            - --db-dir=/home/bitcoin/.bitcoin/electrs/
+            - --index-unspendables
+            - --cors={{ .Values.electrs.cors }}
+            - --http-addr=0.0.0.0:3000
+            - --network={{ .Values.electrs.network }}
+            - --cookie={{ .Values.rpcUser }}:{{ .Values.rpcPassword }}
+            - -vvv
+          volumeMounts:
+            - name: data
+              mountPath: /home/bitcoin/.bitcoin/
+            {{- if .Values.configurationFile }}
+            - name: config
+              mountPath: /home/bitcoin/.bitcoin/bitcoin.conf
+              subPath: bitcoin.conf
+            {{- end }}
+      {{- end }}
+      volumes:
+        {{- if .Values.configurationFile }}
+        - name: config
+          emptyDir: {}
+        - name: configmap
+          configMap:
+            name: {{ template "bitcoind.fullname" . }}
+        {{- end }}
+        - name: data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
+    {{- if .Values.affinity }}
+      affinity:
+{{ toYaml .Values.affinity | indent 8 }}
+    {{- end }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}
+    {{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+    {{- end }}
