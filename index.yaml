@@ -64,4 +64,13 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/postgres-operator-1.6.0/postgres-operator-1.6.0.tgz
     version: 1.6.0
+  w3f-polkadot:
+  - apiVersion: v2
+    created: "2021-01-25T23:11:49.261602784Z"
+    description: Polkadot Node chart.
+    digest: 59157107e796f7e410d2aff883c8c9425c2de3a35acee03994c04594c70a624a
+    name: w3f-polkadot
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/w3f-polkadot-v0.34.1/w3f-polkadot-v0.34.1.tgz
+    version: v0.34.1
 generated: "2021-01-25T09:50:54.367848564Z"
