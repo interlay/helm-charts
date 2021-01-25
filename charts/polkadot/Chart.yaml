@@ -1,5 +1,5 @@
 name: polkadot
-version: 0.2.3
+version: 0.2.3-1
 appVersion: 0.2.0
 description: Polkadot Node Implementation
 home: https://polkadot.network/
@@ -9,4 +9,3 @@ sources:
 maintainers:
   - name: Paritytech Devops Team
     email: devops-team@parity.io
-tillerVersion: ">=2.8.0"
