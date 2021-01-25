@@ -66,6 +66,14 @@ entries:
     version: 1.6.0
   w3f-polkadot:
   - apiVersion: v2
+    created: "2021-01-25T23:28:57.829332386Z"
+    description: Polkadot Node chart.
+    digest: 21cea276747d4625c9f09ccad9e116023abcbc2d05dec27ea25343f3103e6b34
+    name: w3f-polkadot
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/w3f-polkadot-v0.34.2/w3f-polkadot-v0.34.2.tgz
+    version: v0.34.2
+  - apiVersion: v2
     created: "2021-01-25T23:11:49.261602784Z"
     description: Polkadot Node chart.
     digest: 59157107e796f7e410d2aff883c8c9425c2de3a35acee03994c04594c70a624a
