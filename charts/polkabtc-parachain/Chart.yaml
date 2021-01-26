@@ -1,4 +1,4 @@
-name: polkabtc
+name: polkabtc-parachain
 description: Helm chart for PolkaBTC
 
 type: application
