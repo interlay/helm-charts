@@ -37,6 +37,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - btc-parachain
+            - --port
+            - {{ .Values.p2pPort }}
             - --base-path
             - {{ .Values.basePath }}
              {{- range .Values.args }}
@@ -46,7 +48,7 @@ spec:
             {{- include "settings" $ | nindent 10 }}
           ports:
             - name: p2p
-              containerPort: 30333
+              containerPort: {{ .Values.p2pPort }}
             - name: http-rpc
               containerPort: 9933
             - name: websocket-rpc

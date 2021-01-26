@@ -15,3 +15,19 @@ spec:
     {{- include "polkabtc.selectorLabels" . | nindent 4 }}
   sessionAffinity: None
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "polkabtc.fullname" . }}-p2p
+  labels:
+    {{- include "polkabtc.labels" . | nindent 4 }}
+spec:
+  externalTrafficPolicy: Local
+  ports:
+  - port: {{ .Values.p2pPort }}
+    name: p2p
+    nodePort: {{ .Values.p2pPort }}
+  selector:
+    {{- include "polkabtc.selectorLabels" . | nindent 4 }}
+  type: NodePort
