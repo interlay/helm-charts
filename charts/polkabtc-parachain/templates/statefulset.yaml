@@ -38,7 +38,7 @@ spec:
           command:
             - btc-parachain
             - --port
-            - {{ .Values.p2pPort }}
+            - "{{ .Values.p2pPort }}"
             - --base-path
             - {{ .Values.basePath }}
              {{- range .Values.args }}
