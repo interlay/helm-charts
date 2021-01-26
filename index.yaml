@@ -107,6 +107,17 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-parachain-0.2.1/polkabtc-parachain-0.2.1.tgz
     version: 0.2.1
+  polkabtc-webui:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-01-26T11:51:28.871194123Z"
+    description: A Helm chart for PolkaBTC web ui
+    digest: 0a14eb3e987c6343a145fe105073375de75a946164bf271ebd9ddefac5122c03
+    name: polkabtc-webui
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-webui-0.1.0/polkabtc-webui-0.1.0.tgz
+    version: 0.1.0
   polkadot:
   - apiVersion: v1
     appVersion: 0.2.0
