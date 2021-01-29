@@ -10,6 +10,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 basePath: "/btc-parachain"
+binary: btc-parachain
+
 
 args:
 - --dev

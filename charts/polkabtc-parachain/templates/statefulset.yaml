@@ -36,7 +36,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - btc-parachain
+            - {{ .Values.binary }}
             - --port
             - "{{ .Values.p2pPort }}"
             - --base-path
