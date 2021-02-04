@@ -15,6 +15,7 @@ spec:
     {{- include "polkabtc.selectorLabels" . | nindent 4 }}
   sessionAffinity: None
   type: ClusterIP
+{{- if .Values.nodePortEnabled -}}
 ---
 apiVersion: v1
 kind: Service
@@ -31,3 +32,4 @@ spec:
   selector:
     {{- include "polkabtc.selectorLabels" . | nindent 4 }}
   type: NodePort
+  {{- end }}

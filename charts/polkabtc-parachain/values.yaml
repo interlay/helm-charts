@@ -22,6 +22,7 @@ args:
 - development
 
 p2pPort: 30335
+nodePortEnabled: false
 
 serviceAccount:
     # Specifies whether a service account should be created
