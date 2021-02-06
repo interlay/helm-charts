@@ -61,6 +61,22 @@ entries:
   polkabtc-parachain:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2021-02-06T12:19:22.740940709Z"
+    description: Helm chart for PolkaBTC
+    digest: caa348e06d48f4b5cda9ec152ec6b790bf55f0b370f965f7f61d7374e14dcd22
+    home: https://interlay.io/
+    maintainers:
+    - email: contact@interlay.io
+      name: Interlay
+    name: polkabtc-parachain
+    sources:
+    - https://gitlab.com/interlay/btc-parachain
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-parachain-0.2.8/polkabtc-parachain-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2021-02-06T10:15:33.906067681Z"
     description: Helm chart for PolkaBTC
     digest: 793e005527e4149dfd3eb475598320e9761fafb9264cb5a35ee802ed749d12fe
@@ -206,6 +222,14 @@ entries:
     - https://github.com/interlay/helm-charts/releases/download/postgres-operator-1.6.0/postgres-operator-1.6.0.tgz
     version: 1.6.0
   w3f-polkadot:
+  - apiVersion: v2
+    created: "2021-02-06T12:19:22.834859828Z"
+    description: Polkadot Node chart.
+    digest: d519a5b9f0370e6f3c3e0eb550c7277fd0f60f5e8fd8c5443a0b23587728e1be
+    name: w3f-polkadot
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/w3f-polkadot-v0.34.3/w3f-polkadot-v0.34.3.tgz
+    version: v0.34.3
   - apiVersion: v2
     created: "2021-01-25T23:28:57.829332386Z"
     description: Polkadot Node chart.
