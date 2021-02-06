@@ -23,6 +23,8 @@ args:
 
 p2pPort: 30335
 nodePortEnabled: false
+nodeKey:
+    enabled: false
 
 serviceAccount:
     # Specifies whether a service account should be created

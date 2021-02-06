@@ -61,3 +61,8 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/* Returns the node key secret name */}}
+{{- define "polkabtc.nodeKey" -}}
+{{ include "polkabtc.fullname" . }}-node-key
+{{- end }}
