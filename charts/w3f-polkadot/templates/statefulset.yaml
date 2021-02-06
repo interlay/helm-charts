@@ -209,6 +209,7 @@ spec:
     spec:
       {{- if .Values.persistence.enabled }}
       accessModes: {{ .Values.persistence.accessModes }}
+      persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
       resources:
         requests:
           storage: {{ .Values.persistence.chainspecSize }}

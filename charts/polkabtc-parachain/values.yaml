@@ -38,6 +38,7 @@ serviceAccount:
 persistence:
     accessMode: ReadWriteOnce
     size: 32Gi
+    reclaimPolicy: Retain
 
 podAnnotations:
     prometheus.io/scrape: "true"

@@ -44,6 +44,7 @@ persistence:
   dataSize: 200Gi
   chainspecSize: 1Gi
   accessModes: [ "ReadWriteOnce" ]
+  reclaimPolicy: Retain
 
 dnsNameservers:
 - 173.245.58.93

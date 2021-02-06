@@ -101,6 +101,7 @@ spec:
   - metadata:
       name: {{ .Chart.Name }}-state
     spec:
+      persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
       accessModes:
         - {{ .Values.persistence.accessMode | quote }}
       resources:
