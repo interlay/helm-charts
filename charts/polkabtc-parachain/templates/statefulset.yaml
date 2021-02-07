@@ -38,7 +38,7 @@ spec:
           command:
             - {{ .Values.binary }}
             - --port
-            - "{{ .Values.serviceRpc.port }}"
+            - "{{ .Values.serviceP2P.port }}"
             - --base-path
             - {{ .Values.basePath }}
              {{- range .Values.args }}
