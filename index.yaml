@@ -28,6 +28,16 @@ entries:
   digitalocean-exporter:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-02-07T09:46:31.622033174Z"
+    description: A Helm chart for DigitalOcean Prometheus Exporter
+    digest: 479a6305892e6ce62fb914b43dcd5853ada7db1703533487580357be0fdb0baa
+    name: digitalocean-exporter
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/digitalocean-exporter-0.1.2/digitalocean-exporter-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-02-07T09:44:42.53052401Z"
     description: A Helm chart for DigitalOcean Prometheus Exporter
     digest: 015c546ef0b3c8de6c46453e6f7ef70128a0475aaf9dbea18683162999a2884f
