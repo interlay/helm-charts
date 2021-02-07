@@ -25,6 +25,17 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/bitcoind-1.1.0-5/bitcoind-1.1.0-5.tgz
     version: 1.1.0-5
+  digitalocean-exporter:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-02-07T09:40:16.310434715Z"
+    description: A Helm chart for DigitalOcean Prometheus Exporter
+    digest: bf66ec0811f99e9ad0954c4cff8caf259935323147600781fcb3d8de6b47da61
+    name: digitalocean-exporter
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/digitalocean-exporter-0.1.0/digitalocean-exporter-0.1.0.tgz
+    version: 0.1.0
   digitalocean_exporter:
   - apiVersion: v2
     appVersion: 1.16.0
