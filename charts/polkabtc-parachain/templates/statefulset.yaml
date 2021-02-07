@@ -38,7 +38,7 @@ spec:
           command:
             - {{ .Values.binary }}
             - --port
-            - "{{ .Values.p2pPort }}"
+            - "{{ .Values.serviceRpc.port }}"
             - --base-path
             - {{ .Values.basePath }}
              {{- range .Values.args }}
@@ -48,7 +48,7 @@ spec:
             {{- include "settings" $ | nindent 10 }}
           ports:
             - name: p2p
-              containerPort: {{ .Values.p2pPort }}
+              containerPort: {{ .Values.serviceRpc.port }}
             - name: http-rpc
               containerPort: 9933
             - name: websocket-rpc

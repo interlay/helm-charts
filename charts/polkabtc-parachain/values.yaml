@@ -21,10 +21,15 @@ args:
 - --name
 - development
 
-p2pPort: 30335
-nodePortEnabled: false
 nodeKey:
     enabled: false
+
+serviceRpc:
+  type: ClusterIP
+
+serviceP2P:
+  type: ClusterIP
+  port: 30335
 
 serviceAccount:
     # Specifies whether a service account should be created
