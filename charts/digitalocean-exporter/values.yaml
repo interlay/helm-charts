@@ -26,7 +26,7 @@ serviceAccount:
 
 podAnnotations:
   prometheus.io/scrape: 'true'
-  prometheus.io/port: 9212
+  prometheus.io/port: '9212'
 
 podSecurityContext: {}
   # fsGroup: 2000
