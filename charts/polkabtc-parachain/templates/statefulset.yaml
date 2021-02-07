@@ -48,7 +48,7 @@ spec:
             {{- include "settings" $ | nindent 10 }}
           ports:
             - name: p2p
-              containerPort: {{ .Values.serviceRpc.port }}
+              containerPort: {{ .Values.serviceP2P.port }}
             - name: http-rpc
               containerPort: 9933
             - name: websocket-rpc
