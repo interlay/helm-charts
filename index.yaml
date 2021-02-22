@@ -3,6 +3,30 @@ entries:
   bitcoind:
   - apiVersion: v2
     appVersion: 0.20.1
+    created: "2021-02-22T13:11:13.27186658Z"
+    description: Bitcoin is an innovative payment network and a new kind of money.
+    digest: 93660c46bb57d7eadfc8d90b94f244c06a3af6e719898f577bc42c29d31604c4
+    home: https://bitcoin.org/
+    icon: https://bitcoin.org/img/icons/logotop.png
+    keywords:
+    - bitcoind
+    - cryptocurrency
+    - blockchain
+    maintainers:
+    - email: daniel@arilot.com
+      name: daniel-yavorovich
+    - email: shiyanval@gmail.com
+      name: govale
+    name: bitcoind
+    sources:
+    - https://github.com/kubernetes/charts
+    - https://github.com/kuberstack/bitcoind
+    - https://github.com/kylemanna/docker-bitcoind
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/bitcoind-1.1.0-6/bitcoind-1.1.0-6.tgz
+    version: 1.1.0-6
+  - apiVersion: v2
+    appVersion: 0.20.1
     created: "2021-01-25T09:50:54.748191947Z"
     description: Bitcoin is an innovative payment network and a new kind of money.
     digest: 542eeea06d48058feb6473af8eabee6c6144ea287d03cf9eee18810a1c60c470
@@ -101,6 +125,22 @@ entries:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-0.2.0/polkabtc-0.2.0.tgz
     version: 0.2.0
   polkabtc-parachain:
+  - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2021-02-22T13:11:13.395581134Z"
+    description: Helm chart for PolkaBTC
+    digest: 2525cd9775990dfd7c2499dcc14033325fba18642de2018f8adb7082107acc27
+    home: https://interlay.io/
+    maintainers:
+    - email: contact@interlay.io
+      name: Interlay
+    name: polkabtc-parachain
+    sources:
+    - https://gitlab.com/interlay/btc-parachain
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-parachain-0.2.13/polkabtc-parachain-0.2.13.tgz
+    version: 0.2.13
   - apiVersion: v2
     appVersion: 2.0.0
     created: "2021-02-07T12:15:50.134978351Z"
@@ -277,6 +317,17 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-parachain-0.2.1/polkabtc-parachain-0.2.1.tgz
     version: 0.2.1
+  polkabtc-vault:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-02-22T13:11:13.516575845Z"
+    description: A Helm chart for Kubernetes
+    digest: ff75a8f780ba2d2b6ab2c639ed1f15180095d7439f29edade8d2dc85b1a00dd6
+    name: polkabtc-vault
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.0/polkabtc-vault-0.1.0.tgz
+    version: 0.1.0
   polkabtc-webui:
   - apiVersion: v2
     appVersion: 1.16.0
