@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "polkabtc-staked-relayer.fullname" . }}
+  labels:
+    {{- include "polkabtc-staked-relayer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "polkabtc-staked-relayer.selectorLabels" . | nindent 4 }}
