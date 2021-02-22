@@ -37,10 +37,11 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - {{ .Values.binary }}
-            - --port
-            - "{{ .Values.serviceP2P.port }}"
-            - --base-path
-            - {{ .Values.basePath }}
+            - --port={{ .Values.serviceP2P.port }}
+            - --base-path={{ .Values.basePath }}
+            {{- if .Values.nodeKey.enabled }}
+            - --node-key-file=/etc/btc-parachain/node-key
+            {{- end }}
              {{- range .Values.args }}
             - {{ . }}
             {{- end }}
