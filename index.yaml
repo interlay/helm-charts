@@ -317,6 +317,17 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-parachain-0.2.1/polkabtc-parachain-0.2.1.tgz
     version: 0.2.1
+  polkabtc-staked-relayer:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-02-22T13:30:29.788646043Z"
+    description: A Helm chart for Kubernetes
+    digest: cd83c328cd3867f39a40027405a8ac7504a5c0a546eececef72818512a616715
+    name: polkabtc-staked-relayer
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-staked-relayer-0.1.0/polkabtc-staked-relayer-0.1.0.tgz
+    version: 0.1.0
   polkabtc-vault:
   - apiVersion: v2
     appVersion: 1.16.0
