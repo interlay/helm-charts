@@ -40,6 +40,15 @@ spec:
              {{- range .Values.extraArgs }}
             - {{ . }}
             {{- end }}
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          {{- range .Values.env }}
+          - name: {{ .name }}
+            value: {{ .value }}
+          {{- end }}
           envFrom:
           - secretRef:
               name: {{ .Values.envSecretName }}

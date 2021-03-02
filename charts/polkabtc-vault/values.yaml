@@ -17,6 +17,7 @@ envSecretName: ""
 keyfileSecretName: ""
 networkName: testnet
 extraArgs: []
+env: []
 
 healthprobes:
   enabled: false
