@@ -42,6 +42,9 @@ spec:
             {{- if .Values.nodeKey.enabled }}
             - --node-key-file=/etc/btc-parachain/node-key
             {{- end }}
+            {{- if .Values.chainspecLoader.enabled }}
+            - --chain=/chainspec/{{ .Values.chainspecLoader.saveAsFile }}
+            {{- end }}
              {{- range .Values.args }}
             - {{ . }}
             {{- end }}
@@ -62,6 +65,10 @@ spec:
             mountPath: /etc/btc-parachain/node-key
             subPath: node-key
           {{- end }}
+          {{- if .Values.chainspecLoader.enabled }}
+          - name: chainspec-data
+            mountPath: /chainspec
+          {{- end }}
           readinessProbe:
             httpGet:
               path: /health
@@ -76,7 +83,20 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      initContainers:
+      {{- if .Values.chainspecLoader.enabled }}
+      - name: chainspec-loader
+        image: busybox:1.33
+        command: ["sh","-c","wget -O /chainspec/{{ .Values.chainspecLoader.saveAsFile }} {{ .Values.chainspecLoader.chainspecUrl }}"]
+        volumeMounts:
+        - name: chainspec-data
+          mountPath: /chainspec
+      {{- end }}
       volumes:
+      {{- if .Values.chainspecLoader.enabled }}
+      - name: chainspec-data
+        emptyDir: {}
+      {{- end }}
       {{- if .Values.nodeKey.enabled }}
       - name: node-key
         secret:

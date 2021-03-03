@@ -105,3 +105,8 @@ affinity: {}
 environment:
     secrets: []
     inline: {}
+
+chainspecLoader:
+    enabled: false
+    saveAsFile: ''
+    chainspecUrl: ''
