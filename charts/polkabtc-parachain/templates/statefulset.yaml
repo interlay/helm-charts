@@ -42,9 +42,6 @@ spec:
             {{- if .Values.nodeKey.enabled }}
             - --node-key-file=/etc/btc-parachain/node-key
             {{- end }}
-            {{- if .Values.chainspecLoader.enabled }}
-            - --chain=/chainspec/{{ .Values.chainspecLoader.saveAsFile }}
-            {{- end }}
              {{- range .Values.args }}
             - {{ . }}
             {{- end }}
