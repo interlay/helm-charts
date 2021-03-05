@@ -3,6 +3,30 @@ entries:
   bitcoind:
   - apiVersion: v2
     appVersion: 0.20.1
+    created: "2021-03-05T15:43:03.256823532Z"
+    description: Bitcoin is an innovative payment network and a new kind of money.
+    digest: f0b44cffc4e8eea5f07c6a687eb5fbdc27a77af65d0c37ff91ebf0deda69e0c5
+    home: https://bitcoin.org/
+    icon: https://bitcoin.org/img/icons/logotop.png
+    keywords:
+    - bitcoind
+    - cryptocurrency
+    - blockchain
+    maintainers:
+    - email: daniel@arilot.com
+      name: daniel-yavorovich
+    - email: shiyanval@gmail.com
+      name: govale
+    name: bitcoind
+    sources:
+    - https://github.com/kubernetes/charts
+    - https://github.com/kuberstack/bitcoind
+    - https://github.com/kylemanna/docker-bitcoind
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/bitcoind-1.1.0-8/bitcoind-1.1.0-8.tgz
+    version: 1.1.0-8
+  - apiVersion: v2
+    appVersion: 0.20.1
     created: "2021-02-22T13:11:13.27186658Z"
     description: Bitcoin is an innovative payment network and a new kind of money.
     digest: 93660c46bb57d7eadfc8d90b94f244c06a3af6e719898f577bc42c29d31604c4
