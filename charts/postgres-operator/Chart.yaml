@@ -16,3 +16,4 @@ maintainers:
 sources:
 - https://github.com/zalando/postgres-operator
 engine: gotpl
+
