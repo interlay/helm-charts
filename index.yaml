@@ -515,6 +515,29 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/postgres-operator-1.6.0/postgres-operator-1.6.0.tgz
     version: 1.6.0
+  postgres-operator-ui:
+  - apiVersion: v1
+    appVersion: 1.6.1
+    created: "2021-03-06T09:15:17.137332568Z"
+    description: Postgres Operator UI provides a graphical interface for a convenient database-as-a-service user experience
+    digest: d31f2f82b6474a495b9f50812748e24dd7a74594eea7e90db52ac3bf577a1397
+    home: https://github.com/zalando/postgres-operator
+    keywords:
+    - postgres
+    - operator
+    - ui
+    - cloud-native
+    - patroni
+    - spilo
+    maintainers:
+    - email: opensource@zalando.de
+      name: Zalando
+    name: postgres-operator-ui
+    sources:
+    - https://github.com/zalando/postgres-operator
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/postgres-operator-ui-1.6.1/postgres-operator-ui-1.6.1.tgz
+    version: 1.6.1
   w3f-polkadot:
   - apiVersion: v2
     created: "2021-02-06T12:19:22.834859828Z"
