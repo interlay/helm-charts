@@ -36,7 +36,9 @@ spec:
           args:
             - vault
             - --network={{ .Values.networkName}}
+            {{- if or .Values.livenessProbe .Values.readinessProbe }}
             - --http-addr=0.0.0.0:{{ .Values.service.port }}
+            {{- end }}
              {{- range .Values.extraArgs }}
             - {{ . }}
             {{- end }}
