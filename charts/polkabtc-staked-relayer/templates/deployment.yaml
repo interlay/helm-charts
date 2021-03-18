@@ -35,7 +35,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - staked-relayer
+            {{- if or .Values.livenessProbe .Values.readinessProbe }}
             - --http-addr=0.0.0.0:{{ .Values.service.port }}
+            {{- end }}
             - --polka-btc-url={{ .Values.polkadotRpcUrl }}
              {{- range .Values.extraArgs }}
             - {{ . }}
