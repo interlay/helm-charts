@@ -407,6 +407,16 @@ entries:
   polkabtc-vault:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-03-18T11:14:45.525783886Z"
+    description: A Helm chart for Kubernetes
+    digest: 75aa07ee62b901e15747bd6519873255194f4f0809f5ccea53514bc147c93394
+    name: polkabtc-vault
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.9/polkabtc-vault-0.1.9.tgz
+    version: 0.1.9
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-03-15T13:56:41.560755654Z"
     description: A Helm chart for Kubernetes
     digest: 0968d299d26ff42004acab3309ec1014790e103cfbd5abcfabc64588e45afd61
