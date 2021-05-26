@@ -376,6 +376,16 @@ entries:
   polkabtc-staked-relayer:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-05-26T12:01:18.252004089Z"
+    description: A Helm chart for Kubernetes
+    digest: 8d03e3e1307adb6df67286515186242a8f0f1598819bb752b54a7a91f46d3104
+    name: polkabtc-staked-relayer
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-staked-relayer-0.1.4/polkabtc-staked-relayer-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-03-18T11:15:51.115953353Z"
     description: A Helm chart for Kubernetes
     digest: 7476ab1c5ce402d7de08e7f48b4e5f1bdf85556c78292484a8c9cedbf156a94c
