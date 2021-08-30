@@ -24,6 +24,12 @@ args:
 nodeKey:
     enabled: false
 
+rpc:
+    enabled: true
+
+monitoring:
+    enabled: true
+
 serviceRpc:
   type: ClusterIP
 

@@ -39,6 +39,16 @@ spec:
             - {{ .Values.binary }}
             - --port={{ .Values.serviceP2P.port }}
             - --base-path={{ .Values.basePath }}
+            - --name={{ .Release.Name }}
+            {{- if .Values.rpc.enabled }}
+            - --unsafe-rpc-external
+            - --unsafe-ws-external
+            - --rpc-methods=Unsafe
+            - --rpc-cors=all
+            {{- end }}
+            {{- if .Values.monitoring.enabled }}
+            - --prometheus-external
+            {{- end }}
             {{- if .Values.nodeKey.enabled }}
             - --node-key-file=/etc/btc-parachain/node-key
             {{- end }}
