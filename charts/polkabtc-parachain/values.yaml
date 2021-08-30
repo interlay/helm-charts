@@ -24,6 +24,10 @@ args:
 nodeKey:
     enabled: false
 
+telemetry:
+    enabled: true
+    url: '"ws://substrate-telemetry-backend.default:8000/submit 0"'
+
 rpc:
     enabled: true
 

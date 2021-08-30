@@ -46,6 +46,10 @@ spec:
             - --rpc-methods=Unsafe
             - --rpc-cors=all
             {{- end }}
+            {{- if .Values.telemetry.enabled }}
+            - --telemetry-url
+            - {{ .Values.telemetry.url }}
+            {{- end }}
             {{- if .Values.monitoring.enabled }}
             - --prometheus-external
             {{- end }}
