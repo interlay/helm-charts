@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/interlay/polkabtc-clients/vault
+  repository: docker.io/interlayhq/interbtc-clients
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: dev
+  tag: vault-master
 
 imagePullSecrets: []
 nameOverride: ""
