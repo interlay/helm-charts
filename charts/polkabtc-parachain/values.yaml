@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-    repository: "registry.gitlab.com/interlay/btc-parachain"
-    pullPolicy: Always
+    repository: "interlayhq/interbtc"
+    pullPolicy: IfNotPresent
     tag: "latest"
 
 imagePullSecrets: []
@@ -10,8 +10,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 basePath: "/btc-parachain"
-binary: btc-parachain
-
+binary: interbtc-parachain
 
 args:
 - --dev
