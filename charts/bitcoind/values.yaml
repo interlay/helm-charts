@@ -59,6 +59,7 @@ electrs:
   pullPolicy: IfNotPresent
   network: testnet
   cors: "*"
+  extraArgs: ['-vv']
 
 ingress:
   enabled: false

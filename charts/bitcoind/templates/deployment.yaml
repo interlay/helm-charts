@@ -108,6 +108,9 @@ spec:
             - --http-addr=0.0.0.0:3000
             - --network={{ .Values.electrs.network }}
             - --cookie={{ .Values.rpcUser }}:{{ .Values.rpcPassword }}
+            {{- range .Values.electrs.extraArgs }}
+            - {{ . }}
+            {{- end }}
           volumeMounts:
             - name: data
               mountPath: /home/bitcoin/.bitcoin/
