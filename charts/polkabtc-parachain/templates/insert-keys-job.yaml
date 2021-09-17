@@ -25,11 +25,11 @@ spec:
           curl --fail -s \
               -H "Content-Type:application/json;charset=utf-8" \
               -d @/etc/activation-keys/aura.json \
-              http://{{ include "polkabtc.fullname" . }}-p2p:9944;
+              http://{{ include "polkabtc.fullname" . }}-p2p:9933;
           curl --fail -s \
               -H "Content-Type:application/json;charset=utf-8" \
               -d @/etc/activation-keys/gran.json \
-              http://{{ include "polkabtc.fullname" . }}-p2p:9944
+              http://{{ include "polkabtc.fullname" . }}-p2p:9933
         volumeMounts:
         - name: activation-keys
           mountPath: "/etc/activation-keys"
