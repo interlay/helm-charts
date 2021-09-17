@@ -119,3 +119,7 @@ chainspecLoader:
     enabled: false
     saveAsFile: ''
     chainspecUrl: ''
+
+activateKeysJob:
+    enabled: true
+    secretName:

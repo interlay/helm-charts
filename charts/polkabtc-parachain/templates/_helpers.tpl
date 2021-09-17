@@ -66,3 +66,7 @@ Create the name of the service account to use
 {{- define "polkabtc.nodeKey" -}}
 {{ include "polkabtc.fullname" . }}-node-key
 {{- end }}
+
+{{- define "polkabtc.activateionKeys" -}}
+{{ include "polkabtc.fullname" . }}-activation-keys
+{{- end }}
