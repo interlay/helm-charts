@@ -25,11 +25,11 @@ spec:
           [ -f /etc/activation-keys/aura.json ] && curl --fail -s \
               -H "Content-Type:application/json;charset=utf-8" \
               -d @/etc/activation-keys/aura.json \
-              http://{{ include "polkabtc.fullname" . }}-rpc:9933;
+              http://{{ include "polkabtc.fullname" . }}-rpc:9933 || echo 'Skipping aura.json';
           [ -f /etc/activation-keys/gran.json ] && curl --fail -s \
               -H "Content-Type:application/json;charset=utf-8" \
               -d @/etc/activation-keys/gran.json \
-              http://{{ include "polkabtc.fullname" . }}-rpc:9933
+              http://{{ include "polkabtc.fullname" . }}-rpc:9933 || echo 'Skipping gran.json'
         volumeMounts:
         - name: activation-keys
           mountPath: "/etc/activation-keys"
