@@ -5,7 +5,7 @@ apiVersion: v1
 metadata:
   name: deployment-restart
   namespace: {{ .Release.Namespace }}
-annotations:
+  annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": hook-succeeded
 ---
@@ -14,7 +14,7 @@ kind: Role
 metadata:
   name: deployment-restart
   namespace: {{ .Release.Namespace }}
-annotations:
+  annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": hook-succeeded
 rules:
@@ -29,6 +29,9 @@ kind: RoleBinding
 metadata:
   name: deployment-restart
   namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
