@@ -121,5 +121,10 @@ chainspecLoader:
     chainspecUrl: ''
 
 activateKeysJob:
-    enabled: true
+    enabled: false
     secretName:
+
+snapshotDownload:
+    enabled: false
+    url: https://ksm-rocksdb.polkashots.io/snapshot
+    destPath: /polkadot/chains/ksmcc3

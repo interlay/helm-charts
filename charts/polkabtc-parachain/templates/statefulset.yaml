@@ -103,6 +103,28 @@ spec:
         - name: chainspec-data
           mountPath: /chainspec
       {{- end }}
+      {{- if .Values.snapshotDownload.enabled }}
+      - name: init-snapshot-download
+        image: docker.io/library/alpine:3.14
+        volumeMounts:
+        - name: {{ .Chart.Name }}-state
+          mountPath: {{ .Values.basePath }}
+        command:
+          - sh
+          - -c
+          - |
+            FILE="{{ .Values.basePath }}/polkashots-imported"
+            if [ ! -f "$FILE" ]; then
+              echo "Downloading relaychain snapshot."
+              apk add --no-cache p7zip
+              wget {{ .Values.snapshotDownload.url }} -O snapshot.7z
+              7z x snapshot.7z -o{{ .Values.basePath }}{{ .Values.snapshotDownload.destPath }}
+              rm -v snapshot.7z
+              touch "$FILE"
+            else
+              echo "Skipping relaychain snapshot download."
+            fi
+      {{- end }}
       volumes:
       {{- if .Values.chainspecLoader.enabled }}
       - name: chainspec-data
