@@ -52,6 +52,22 @@ entries:
   polkabtc-parachain:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2021-10-09T12:37:40.065286218Z"
+    description: Helm chart for PolkaBTC
+    digest: 13d652bb953213d63701d8fdc1f46eadc08b4c82ec723816488bab6d6fe4b0c7
+    home: https://interlay.io/
+    maintainers:
+    - email: contact@interlay.io
+      name: Interlay
+    name: polkabtc-parachain
+    sources:
+    - https://gitlab.com/interlay/btc-parachain
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/polkabtc-parachain-0.2.28/polkabtc-parachain-0.2.28.tgz
+    version: 0.2.28
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2021-10-09T11:50:26.701553429Z"
     description: Helm chart for PolkaBTC
     digest: 334f16a7d639306df94479dadde76ad9bb4259c18bedc64c86bb9d968ba5ffc9
@@ -237,4 +253,4 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.10/polkabtc-vault-0.1.10.tgz
     version: 0.1.10
-generated: "2021-10-09T11:50:26.701886731Z"
+generated: "2021-10-09T12:37:40.065456319Z"
