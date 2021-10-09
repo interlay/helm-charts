@@ -113,12 +113,13 @@ spec:
           - sh
           - -c
           - |
+            set -e
             FILE="{{ .Values.basePath }}/polkashots-imported"
             if [ ! -f "$FILE" ]; then
               echo "Downloading relaychain snapshot."
               apk add --no-cache p7zip
               wget {{ .Values.snapshotDownload.url }} -O snapshot.7z
-              7z x snapshot.7z -o{{ .Values.basePath }}{{ .Values.snapshotDownload.destPath }}
+              7z x -y snapshot.7z -o{{ .Values.basePath }}{{ .Values.snapshotDownload.destPath }}
               rm -v snapshot.7z
               touch "$FILE"
             else
