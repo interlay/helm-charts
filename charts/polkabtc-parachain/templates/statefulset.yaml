@@ -21,6 +21,9 @@ spec:
     {{- end }}
       labels:
         {{- include "polkabtc.selectorLabels" . | nindent 8 }}
+{{- with .Values.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

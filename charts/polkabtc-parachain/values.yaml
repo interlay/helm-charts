@@ -57,6 +57,8 @@ persistence:
 # Apply extra labels to common labels.
 extraLabels: {}
 
+podLabels: {}
+
 podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9615"
