@@ -54,6 +54,9 @@ persistence:
     size: 32Gi
     reclaimPolicy: Retain
 
+# Apply extra labels to common labels.
+extraLabels: {}
+
 podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9615"
