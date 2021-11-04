@@ -64,11 +64,6 @@ spec:
               echo "Skipping relaychain snapshot download."
             fi
       {{- end }}
-      volumes:
-      {{- if .Values.chainspecLoader.enabled }}
-      - name: chainspec-data
-        emptyDir: {}
-      {{- end }}
       {{- if .Values.nodeKey.enabled }}
       - name: node-key
         secret:
@@ -152,9 +147,14 @@ spec:
           - name: chainspec-data
             mountPath: /chainspec
           {{- end }}
-{{- if .Values.persistence.enabled }}
           - name: {{ .Chart.Name }}-state
             mountPath: {{ .Values.basePath }}
+      volumes:
+      {{- if .Values.chainspecLoader.enabled }}
+      - name: chainspec-data
+        emptyDir: {}
+      {{- end }}
+{{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
   - metadata:
       name: {{ .Chart.Name }}-state
