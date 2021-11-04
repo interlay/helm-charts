@@ -165,7 +165,7 @@ spec:
         requests:
           storage: {{ .Values.persistence.size | quote }}
 {{- else }}
-          - name: {{ .Chart.Name }}-state
-            mountPath: {{ .Values.basePath }}
-            emptyDir: {}
+      - name: {{ .Chart.Name }}-state
+        mountPath: {{ .Values.basePath }}
+        emptyDir: {}
 {{- end }}
