@@ -166,6 +166,5 @@ spec:
           storage: {{ .Values.persistence.size | quote }}
 {{- else }}
       - name: {{ .Chart.Name }}-state
-        mountPath: {{ .Values.basePath }}
         emptyDir: {}
 {{- end }}
