@@ -50,6 +50,7 @@ serviceAccount:
     name: ""
 
 persistence:
+    enabled: true
     accessMode: ReadWriteOnce
     size: 32Gi
     reclaimPolicy: Retain
