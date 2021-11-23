@@ -49,6 +49,17 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/bitcoind-1.1.0-9/bitcoind-1.1.0-9.tgz
     version: 1.1.0-9
+  interbtc-hydra:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-11-23T07:59:53.223632633Z"
+    description: A Helm chart for Kubernetes
+    digest: 5d5b1e0338950d7b8069a2c2ade055f5d2b83a7b88d0149df6bd6e24c0625d7a
+    name: interbtc-hydra
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/interbtc-hydra-0.1.0/interbtc-hydra-0.1.0.tgz
+    version: 0.1.0
   polkabtc-parachain:
   - apiVersion: v2
     appVersion: 2.0.0
@@ -381,4 +392,4 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.10/polkabtc-vault-0.1.10.tgz
     version: 0.1.10
-generated: "2021-11-04T11:21:58.681659566Z"
+generated: "2021-11-23T07:59:53.224288938Z"
