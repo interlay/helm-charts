@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "interbtc-hydra.fullname" . }}-query-node
+  labels:
+    {{- include "interbtc-hydra.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "interbtc-hydra.selectorLabels" . | nindent 6 }}
+      app: {{ include "interbtc-hydra.fullname" . }}-query-node
+  template:
+    metadata:
+      labels:
+        {{- include "interbtc-hydra.selectorLabels" . | nindent 8 }}
+        app: {{ include "interbtc-hydra.fullname" . }}-query-node
+    spec:
+      volumes:
+        - name: hydra-config
+          configMap:
+            name: {{ include "interbtc-hydra.fullname" . }}-types
+      containers:
+        - name: hydra-query-node
+          image: {{ .Values.hydra.processor.image.repository }}:{{ .Values.hydra.processor.image.tag }}
+          imagePullPolicy: {{ .Values.hydra.processor.image.pullPolicy }}
+          command: [yarn, query-node:start]
+          ports:
+            - containerPort: 3000
+              name: http
+          envFrom:
+          - secretRef:
+              name: {{ .Values.hydra.processor.dbSecretName }}
+          env:
+            - name: WORKERS_NUMBER
+              value: "5"
+            - name: REDIS_URI
+              value: {{ .Values.redis }}
+            - name: TYPES_JSON
+              value: /etc/hydra/types.json

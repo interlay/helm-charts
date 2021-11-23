@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "interbtc-hydra.fullname" . }}-processor
+  labels:
+    {{- include "interbtc-hydra.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "interbtc-hydra.fullname" . }}-processor
+  template:
+    metadata:
+      labels:
+        app: {{ include "interbtc-hydra.fullname" . }}-processor
+    spec:
+      volumes:
+        - name: hydra-config
+          configMap:
+            name: {{ include "interbtc-hydra.fullname" . }}-types
+      containers:
+        - name: hydra-processor
+          image: {{ .Values.hydra.processor.image.repository }}:{{ .Values.hydra.processor.image.tag }}
+          imagePullPolicy: {{ .Values.hydra.processor.image.pullPolicy }}
+          args: [run]
+          # command: [./node_modules/.bin/hydra-cli, db:migrate]
+          # command: [./node_modules/.bin/hydra-processor, migrate]
+          envFrom:
+          - secretRef:
+              name: {{ .Values.hydra.processor.dbSecretName }}
+          env:
+            - name: INDEXER_ENDPOINT_URL
+              value: "http://{{ include "interbtc-hydra.fullname" . }}-indexer-gateway/v1/graphql"
+            - name: BATCH_SIZE
+              value: {{ .Values.hydra.processor.batchSize | quote }}
+          volumeMounts:
+            - name: hydra-config
+              mountPath: /etc/hydra/
+              readOnly: true

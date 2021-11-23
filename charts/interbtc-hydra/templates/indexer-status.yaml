@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "interbtc-hydra.fullname" . }}-indexer-status
+  labels:
+    {{- include "interbtc-hydra.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "interbtc-hydra.selectorLabels" . | nindent 6 }}
+      app: {{ include "interbtc-hydra.fullname" . }}-indexer-status
+  template:
+    metadata:
+      labels:
+        {{- include "interbtc-hydra.selectorLabels" . | nindent 8 }}
+        app: {{ include "interbtc-hydra.fullname" . }}-indexer-status
+    spec:
+      containers:
+        - name: hydra-indexer-status
+          image: {{ .Values.hydra.status.image.repository }}:{{ .Values.hydra.status.image.tag }}
+          imagePullPolicy: {{ .Values.hydra.status.image.pullPolicy }}
+          env:
+            - name: PORT
+              value: "8080"
+            - name: REDIS_URI
+              value: {{ .Values.redis }}
+          ports:
+            - containerPort: 8080
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            timeoutSeconds: 6
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 16
+            periodSeconds: 10
+            timeoutSeconds: 6
+            successThreshold: 2

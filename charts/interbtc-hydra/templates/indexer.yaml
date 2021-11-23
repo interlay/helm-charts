@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "interbtc-hydra.fullname" . }}-indexer
+  labels:
+    {{- include "interbtc-hydra.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "interbtc-hydra.selectorLabels" . | nindent 6 }}
+      app: {{ include "interbtc-hydra.fullname" . }}-indexer
+  template:
+    metadata:
+      labels:
+        {{- include "interbtc-hydra.selectorLabels" . | nindent 8 }}
+        app: {{ include "interbtc-hydra.fullname" . }}-indexer
+    spec:
+      volumes:
+        - name: hydra-config
+          configMap:
+            name: {{ include "interbtc-hydra.fullname" . }}-types
+      containers:
+        - name: hydra-indexer
+          image: {{ .Values.hydra.indexer.image.repository }}:{{ .Values.hydra.indexer.image.tag }}
+          imagePullPolicy: {{ .Values.hydra.indexer.image.pullPolicy }}
+          # command: [yarn, db:migrate]
+          envFrom:
+          - secretRef:
+              name: {{ .Values.hydra.indexer.dbSecretName }}
+          env:
+            - name: WORKERS_NUMBER
+              value: "5"
+            - name: REDIS_URI
+              value: {{ .Values.redis }}
+            - name: BLOCK_HEIGHT
+              value: "0" # starting block height
+            - name: WS_PROVIDER_ENDPOINT_URI
+              value: "{{ .Values.rpc_node }}"
+            - name: TYPES_JSON
+              value: /etc/hydra/types.json
+          volumeMounts:
+            - name: hydra-config
+              mountPath: /etc/hydra/
+              readOnly: true

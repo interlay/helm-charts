@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "interbtc-hydra.fullname" . }}-query-node
+  labels:
+    {{- include "interbtc-hydra.labels" . | nindent 4 }}
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+  selector:
+    {{- include "interbtc-hydra.selectorLabels" . | nindent 4 }}
+    app: {{ include "interbtc-hydra.fullname" . }}-query-node
+  sessionAffinity: None
+  type: ClusterIP

@@ -1,0 +1,28 @@
+hydra:
+  indexer:
+    dbSecretName: "indexer-db-secret"
+    image:
+      repository: "docker.io/subsquid/hydra-indexer"
+      pullPolicy: IfNotPresent
+      tag: "4.2.0-alpha.7"
+  processor:
+    dbSecretName: "processor-db-secret"
+    batchSize: "10000"
+    image:
+      repository: "docker.io/interlayhq/interbtc-hydra-processor"
+      pullPolicy: IfNotPresent
+      tag: "master-2c6e16e-1637088364"
+  status:
+    image:
+      repository: "docker.io/subsquid/hydra-indexer-status-service"
+      pullPolicy: IfNotPresent
+      tag: "4.2.0-alpha.7"
+  gateway:
+    dbSecretName: "gateway-db-secret"
+    image:
+      repository: "docker.io/subsquid/hydra-indexer-gateway"
+      pullPolicy: IfNotPresent
+      tag: "4.2.0-alpha.7"
+
+redis: "redis://hydra-redis-master:6379/0"
+rpc_node: "ws://interbtc-01-polkabtc-parachain-rpc:9944"
