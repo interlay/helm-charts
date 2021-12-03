@@ -34,6 +34,8 @@ spec:
               value: "http://{{ include "interbtc-hydra.fullname" . }}-indexer-gateway/v1/graphql"
             - name: BATCH_SIZE
               value: {{ .Values.hydra.processor.batchSize | quote }}
+            - name: WORKERS_NUMBER
+              value: {{ .Values.hydra.processor.workers | quote }}
           volumeMounts:
             - name: hydra-config
               mountPath: /etc/hydra/

@@ -5,9 +5,12 @@ hydra:
       repository: "docker.io/subsquid/hydra-indexer"
       pullPolicy: IfNotPresent
       tag: "4.2.0-alpha.7"
+    workers: 5
+    batchSize: 10000
   processor:
     dbSecretName: "processor-db-secret"
-    batchSize: "10000"
+    workers: 5
+    batchSize: 10000
     image:
       repository: "docker.io/interlayhq/interbtc-hydra-processor"
       pullPolicy: IfNotPresent
@@ -25,4 +28,4 @@ hydra:
       tag: "4.2.0-alpha.7"
 
 redis: "redis://hydra-redis-master:6379/0"
-rpc_node: "ws://interbtc-01-polkabtc-parachain-rpc:9944"
+rpc_node: "ws://interbtc-rpc:9944"

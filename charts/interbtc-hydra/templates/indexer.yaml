@@ -31,7 +31,9 @@ spec:
               name: {{ .Values.hydra.indexer.dbSecretName }}
           env:
             - name: WORKERS_NUMBER
-              value: "5"
+              value: {{ .Values.hydra.indexer.workers | quote }}
+            - name: BATCH_SIZE
+              value: {{ .Values.hydra.indexer.batchSize | quote }}
             - name: REDIS_URI
               value: {{ .Values.redis }}
             - name: BLOCK_HEIGHT
