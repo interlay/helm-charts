@@ -128,18 +128,14 @@ spec:
               containerPort: 9933
             - name: websocket-rpc
               containerPort: 9944
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http-rpc
-            initialDelaySeconds: 10
-            periodSeconds: 10
+          {{- if .Values.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /health
-              port: http-rpc
-            initialDelaySeconds: 10
-            periodSeconds: 10
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
