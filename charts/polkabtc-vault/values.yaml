@@ -18,6 +18,7 @@ keyfileSecretName: ""
 networkName: testnet
 extraArgs: []
 env: []
+binary: vault
 
 serviceAccount:
   # Specifies whether a service account should be created

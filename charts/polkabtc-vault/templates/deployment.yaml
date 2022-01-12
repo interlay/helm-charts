@@ -34,7 +34,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
-            - vault
+            - {{ .Values.binary }}
             - --network={{ .Values.networkName}}
             {{- if or .Values.livenessProbe .Values.readinessProbe }}
             - --http-addr=0.0.0.0:{{ .Values.service.port }}
