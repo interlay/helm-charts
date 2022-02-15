@@ -70,6 +70,17 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/interbtc-hydra-0.1.0/interbtc-hydra-0.1.0.tgz
     version: 0.1.0
+  interbtc-vault:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-15T12:21:31.925371138Z"
+    description: A Helm chart for Kubernetes
+    digest: 6e13a27497dde6e1c8954e6e3de0f3653b6016af7366bca1fb1bddda290f127d
+    name: interbtc-vault
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/interbtc-vault-0.1.12/interbtc-vault-0.1.12.tgz
+    version: 0.1.12
   polkabtc-parachain:
   - apiVersion: v2
     appVersion: 2.0.0
@@ -426,16 +437,6 @@ entries:
   polkabtc-vault:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-02-15T12:20:19.71698674Z"
-    description: A Helm chart for Kubernetes
-    digest: fd93b7445412898e08fc0a85405836244c2ea056f0128280054afa4aaff194e7
-    name: polkabtc-vault
-    type: application
-    urls:
-    - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.12/polkabtc-vault-0.1.12.tgz
-    version: 0.1.12
-  - apiVersion: v2
-    appVersion: 1.16.0
     created: "2022-01-12T16:15:38.742691556Z"
     description: A Helm chart for Kubernetes
     digest: e08fa17e9de8cfa0feeacccc5191debb0d8c521622e252de99eb16d0cb2ec384
@@ -454,4 +455,4 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.10/polkabtc-vault-0.1.10.tgz
     version: 0.1.10
-generated: "2022-02-15T12:20:19.717260141Z"
+generated: "2022-02-15T12:21:31.925484939Z"
