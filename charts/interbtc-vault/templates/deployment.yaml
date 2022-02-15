@@ -35,7 +35,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - {{ .Values.binary }}
-            - --network={{ .Values.networkName}}
+            {{- if .Values.networkName }}
+            - --network={{ .Values.networkName }}
+            {{- end -}}
             {{- if or .Values.livenessProbe .Values.readinessProbe }}
             - --http-addr=0.0.0.0:{{ .Values.service.port }}
             {{- end }}
