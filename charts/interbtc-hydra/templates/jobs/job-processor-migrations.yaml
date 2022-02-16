@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "interbtc-hydra.fullname" . }}-processor-migrations
+  labels:
+    {{- include "interbtc-hydra.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: activate
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job
+        image: {{ .Values.hydra.processor.image.repository }}:{{ .Values.hydra.processor.image.tag }}
+        imagePullPolicy: {{ .Values.hydra.processor.image.pullPolicy }}
+        command: ["bash", "-c"]
+        args: |
+          set -euxo pipefail
+          node db/init.js
+        envFrom:
+          - secretRef:
+              name: {{ .Values.hydra.processor.dbSecretName }}
