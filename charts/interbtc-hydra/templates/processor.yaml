@@ -23,15 +23,16 @@ spec:
         - name: hydra-processor
           image: {{ .Values.hydra.processor.image.repository }}:{{ .Values.hydra.processor.image.tag }}
           imagePullPolicy: {{ .Values.hydra.processor.image.pullPolicy }}
-          args: [run]
           # command: [./node_modules/.bin/hydra-cli, db:migrate]
           # command: [./node_modules/.bin/hydra-processor, migrate]
           envFrom:
           - secretRef:
               name: {{ .Values.hydra.processor.dbSecretName }}
           env:
-            - name: INDEXER_ENDPOINT_URL
+            - name: ARCHIVE_ENDPOINT
               value: "http://{{ include "interbtc-hydra.fullname" . }}-indexer-gateway/v1/graphql"
+            - name: CHAIN_ENDPOINT
+              value: "{{ .Values.rpc_node }}"
             - name: BATCH_SIZE
               value: {{ .Values.hydra.processor.batchSize | quote }}
             - name: WORKERS_NUMBER
