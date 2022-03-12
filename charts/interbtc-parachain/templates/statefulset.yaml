@@ -128,6 +128,8 @@ spec:
               containerPort: 9933
             - name: websocket-rpc
               containerPort: 9944
+            - name: metrics
+              containerPort: 9615
           {{- if .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
