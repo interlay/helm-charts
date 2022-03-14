@@ -27,7 +27,7 @@ spec:
           imagePullPolicy: {{ .Values.hydra.processor.image.pullPolicy }}
           command: [yarn, query-node:start]
           ports:
-            - containerPort: 3000
+            - containerPort: 4000
               name: http
           envFrom:
           - secretRef:
