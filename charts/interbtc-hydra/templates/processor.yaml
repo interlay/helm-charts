@@ -12,6 +12,10 @@ spec:
       app: {{ include "interbtc-hydra.fullname" . }}-processor
   template:
     metadata:
+    {{- with .Values.hydra.processor.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
       labels:
         app: {{ include "interbtc-hydra.fullname" . }}-processor
     spec:
@@ -37,6 +41,9 @@ spec:
               value: {{ .Values.hydra.processor.batchSize | quote }}
             - name: WORKERS_NUMBER
               value: {{ .Values.hydra.processor.workers | quote }}
+          ports:
+            - containerPort: 3000
+              name: http
           volumeMounts:
             - name: hydra-config
               mountPath: /etc/hydra/
