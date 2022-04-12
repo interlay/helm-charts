@@ -21,7 +21,13 @@ tolerations: {}
 
 metrics:
   enabled: true
-  port: 8443
+  port: 9332
+  resources:
+    requests:
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+      cpu: 50m
 
 persistence:
   enabled: true
@@ -54,17 +60,24 @@ configurationFile:
 
 electrs:
   enabled: false
-  image: registry.gitlab.com/interlay/containers/electrs:a3460c9d
+  image: docker.io/interlayhq/electr:nightly-2022-03-01
   imagePullSecrets:
   pullPolicy: IfNotPresent
   network: testnet
   cors: "*"
-  extraArgs: ['-vv']
+  extraArgs: ["-vv"]
+  resources: {}
+    # requests:
+    #   memory: 5Gi
+    # limits:
+    #   memory: 5Gi
+    #   cpu: 2
 
 ingress:
   enabled: false
   servicePort: 3000
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:

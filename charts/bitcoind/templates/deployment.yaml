@@ -24,6 +24,7 @@ spec:
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: {{ .Values.metrics.port | quote }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -42,7 +43,7 @@ spec:
               mountPath: /bitcoin/.bitcoin/
       {{- end }}
       containers:
-        - name: {{ template "bitcoind.fullname" . }}
+        - name: bitcoind
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           resources:
@@ -65,8 +66,10 @@ spec:
               subPath: bitcoin.conf
             {{- end }}
         - name: metrics-exporter
-          image: jvstein/bitcoin-prometheus-exporter:v0.5.0
+          image: jvstein/bitcoin-prometheus-exporter:v0.7.0
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          resources:
+{{ toYaml .Values.metrics.resources | indent 12 }}
           volumeMounts:
             {{- if .Values.configurationFile }}
             - name: config
@@ -99,8 +102,9 @@ spec:
         - name: electrs
           image: {{ .Values.electrs.image }}
           imagePullPolicy: {{ .Values.electrs.pullPolicy | quote }}
+          resources:
+{{ toYaml .Values.electrs.resources | indent 12 }}
           args:
-            - /usr/local/bin/electrs
             - --daemon-dir=/home/bitcoin/.bitcoin/
             - --db-dir=/home/bitcoin/.bitcoin/electrs/
             - --index-unspendables
