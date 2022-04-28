@@ -90,16 +90,15 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: parachain
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - {{ .Values.binary }}
+          args:
             - --port={{ .Values.serviceP2P.port }}
             - --base-path={{ .Values.basePath }}
-            - --name={{ .Release.Name }}
+            - --name={{ .Values.nodeName | default .Release.Name }}
             {{- if .Values.rpc.enabled }}
             - --unsafe-rpc-external
             - --unsafe-ws-external

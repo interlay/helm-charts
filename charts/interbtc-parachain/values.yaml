@@ -17,8 +17,8 @@ args:
   - --rpc-external
   - --prometheus-external
   - --ws-external
-  - --name
-  - development
+
+nodeName: ""
 
 nodeKey:
   enabled: false
