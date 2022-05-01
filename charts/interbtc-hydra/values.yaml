@@ -4,7 +4,7 @@ hydra:
     image:
       repository: "docker.io/subsquid/hydra-indexer"
       pullPolicy: IfNotPresent
-      tag: "5.0.0-alpha.22"
+      tag: "5.0.0-alpha.34"
     workers: 5
     batchSize: 10000
   processor:
@@ -22,13 +22,13 @@ hydra:
     image:
       repository: "docker.io/subsquid/hydra-indexer-status-service"
       pullPolicy: IfNotPresent
-      tag: "5.0.0-alpha.22"
+      tag: "5.0.0-alpha.34"
   gateway:
     dbSecretName: "gateway-db-secret"
     image:
       repository: "docker.io/subsquid/hydra-indexer-gateway"
       pullPolicy: IfNotPresent
-      tag: "5.0.0-alpha.22"
+      tag: "5.0.0-alpha.34"
 
 redis: "redis://hydra-redis-master:6379/0"
 rpc_node: "ws://interbtc-rpc:9944"

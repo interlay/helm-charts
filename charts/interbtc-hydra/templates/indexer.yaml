@@ -46,3 +46,6 @@ spec:
             - name: hydra-config
               mountPath: /etc/hydra/
               readOnly: true
+          ports:
+            - containerPort: 9090
+              name: metrics
