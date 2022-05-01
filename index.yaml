@@ -76,6 +76,16 @@ entries:
   interbtc-hydra:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-05-01T18:29:36.596076673Z"
+    description: A Helm chart for Kubernetes
+    digest: 31d39b8dc67e299a5b6ff066ca20d6e1af9918c8c48e6cc72218dd323f77a251
+    name: interbtc-hydra
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/interbtc-hydra-0.1.10/interbtc-hydra-0.1.10.tgz
+    version: 0.1.10
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-05-01T15:13:16.488913725Z"
     description: A Helm chart for Kubernetes
     digest: 1cfc3663a45ef5e092a6f33950ad2831bf1d7f7c27af544267fac54e06ee439f
@@ -624,4 +634,4 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.10/polkabtc-vault-0.1.10.tgz
     version: 0.1.10
-generated: "2022-05-01T15:13:16.489084736Z"
+generated: "2022-05-01T18:29:36.596248375Z"
