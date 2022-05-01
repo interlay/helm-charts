@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "polkabtc.fullname" . }}-rpc
+  labels:
+    {{- include "polkabtc.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.serviceRpc.type }}
+  ports:
+    - port: 9933
+      name: http-rpc
+      targetPort: http-rpc
+    - port: 9944
+      name: websocket-rpc
+      protocol: TCP
+      targetPort: websocket-rpc
+    - port: 9615
+      name: metrics
+      protocol: TCP
+      targetPort: metrics
+  selector:
+    {{- include "polkabtc.selectorLabels" . | nindent 4 }}

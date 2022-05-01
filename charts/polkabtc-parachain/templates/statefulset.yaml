@@ -1,0 +1,172 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "polkabtc.fullname" . }}
+  labels:
+    {{- include "polkabtc.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "polkabtc.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "polkabtc.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "polkabtc.selectorLabels" . | nindent 8 }}
+{{- with .Values.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "polkabtc.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      {{- if .Values.chainspecLoader.enabled }}
+      - name: chainspec-loader
+        image: busybox:1.34
+        command: ["sh","-c"]
+        args:
+        - |-
+          {{- range .Values.chainspecLoader.urls }}
+          wget -O /chainspec/{{ .filename }} {{ .url }}
+          {{- end }}
+        volumeMounts:
+        - name: chainspec-data
+          mountPath: /chainspec
+      {{- end }}
+      {{- if .Values.snapshotDownload.enabled }}
+      - name: init-snapshot-download
+        image: docker.io/library/alpine:3.15
+        volumeMounts:
+        - name: {{ .Chart.Name }}-state
+          mountPath: {{ .Values.basePath }}
+        command:
+          - sh
+          - -c
+          - |
+            set -e
+            FILE="{{ .Values.basePath }}/polkashots-imported"
+            if [ ! -f "$FILE" ]; then
+              echo "Downloading relaychain snapshot."
+              apk add --no-cache p7zip
+              wget {{ .Values.snapshotDownload.url }} -O snapshot.7z
+              7z x -y snapshot.7z -o{{ .Values.basePath }}{{ .Values.snapshotDownload.destPath }}
+              rm -v snapshot.7z
+              touch "$FILE"
+            else
+              echo "Skipping relaychain snapshot download."
+            fi
+      {{- end }}
+      {{- if .Values.nodeKey.enabled }}
+      - name: node-key
+        secret:
+          secretName: {{ include "polkabtc.nodeKey" . }}
+          items:
+          - key: node-key
+            path: node-key
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: parachain
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - --port={{ .Values.serviceP2P.port }}
+            - --base-path={{ .Values.basePath }}
+            - --name={{ .Values.nodeName | default .Release.Name }}
+            {{- if .Values.rpc.enabled }}
+            - --unsafe-rpc-external
+            - --unsafe-ws-external
+            - --rpc-methods=Unsafe
+            - --rpc-cors=all
+            {{- end }}
+            {{- if .Values.telemetry.enabled }}
+            - --telemetry-url
+            - {{ .Values.telemetry.url }}
+            {{- end }}
+            {{- if .Values.monitoring.enabled }}
+            - --prometheus-external
+            {{- end }}
+            {{- if .Values.nodeKey.enabled }}
+            - --node-key-file=/etc/btc-parachain/node-key
+            {{- end }}
+             {{- range .Values.args }}
+            - {{ . }}
+            {{- end }}
+          env:
+            {{- include "settings" $ | nindent 10 }}
+          ports:
+            - name: p2p
+              containerPort: {{ .Values.serviceP2P.port }}
+            - name: http-rpc
+              containerPort: 9933
+            - name: websocket-rpc
+              containerPort: 9944
+            - name: metrics
+              containerPort: 9615
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.nodeKey.enabled }}
+          - name: node-key
+            mountPath: /etc/btc-parachain/node-key
+            subPath: node-key
+          {{- end }}
+          {{- if .Values.chainspecLoader.enabled }}
+          - name: chainspec-data
+            mountPath: /chainspec
+          {{- end }}
+          - name: {{ .Chart.Name }}-state
+            mountPath: {{ .Values.basePath }}
+      volumes:
+      {{- if .Values.chainspecLoader.enabled }}
+      - name: chainspec-data
+        emptyDir: {}
+      {{- end }}
+{{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Chart.Name }}-state
+    spec:
+      accessModes:
+        - {{ .Values.persistence.accessMode | quote }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size | quote }}
+{{- else }}
+      - name: {{ .Chart.Name }}-state
+        emptyDir: {}
+{{- end }}

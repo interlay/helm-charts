@@ -1,0 +1,41 @@
+{{- if .Values.activateKeysJob.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "polkabtc.fullname" . }}-activate-keys
+  labels:
+    {{- include "polkabtc.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: activate
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job
+        image: docker.io/byrnedo/alpine-curl
+        command: ["/bin/sh"]
+        args:
+         - "-c"
+         - |
+          [ -f /etc/activation-keys/aura.json ] && curl --fail -s \
+              -H "Content-Type:application/json;charset=utf-8" \
+              -d @/etc/activation-keys/aura.json \
+              http://{{ include "polkabtc.fullname" . }}-rpc:9933 || echo 'Skipping aura.json';
+          [ -f /etc/activation-keys/gran.json ] && curl --fail -s \
+              -H "Content-Type:application/json;charset=utf-8" \
+              -d @/etc/activation-keys/gran.json \
+              http://{{ include "polkabtc.fullname" . }}-rpc:9933 || echo 'Skipping gran.json'
+        volumeMounts:
+        - name: activation-keys
+          mountPath: "/etc/activation-keys"
+          readOnly: true
+      volumes:
+      - name: activation-keys
+        secret:
+          secretName: {{ .Values.activateKeysJob.secretName | default (include "polkabtc.activateionKeys" .) }}
+{{- end }}
