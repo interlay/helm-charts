@@ -10,12 +10,14 @@ spec:
   selector:
     matchLabels:
       {{- include "interbtc-hydra.selectorLabels" . | nindent 6 }}
-      app: {{ include "interbtc-hydra.fullname" . }}-query-node
+      app: {{ include "interbtc-hydra.fullname" . }}
+      component: query-node
   template:
     metadata:
       labels:
         {{- include "interbtc-hydra.selectorLabels" . | nindent 8 }}
-        app: {{ include "interbtc-hydra.fullname" . }}-query-node
+        app: {{ include "interbtc-hydra.fullname" . }}
+        component: query-node
     spec:
       volumes:
         - name: hydra-config

@@ -12,6 +12,7 @@ spec:
       targetPort: http
   selector:
     {{- include "interbtc-hydra.selectorLabels" . | nindent 4 }}
-    app: {{ include "interbtc-hydra.fullname" . }}-indexer-status
+    app: {{ include "interbtc-hydra.fullname" . }}
+    component: indexer-status
   sessionAffinity: None
   type: ClusterIP

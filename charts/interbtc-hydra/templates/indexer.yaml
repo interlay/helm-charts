@@ -10,12 +10,14 @@ spec:
   selector:
     matchLabels:
       {{- include "interbtc-hydra.selectorLabels" . | nindent 6 }}
-      app: {{ include "interbtc-hydra.fullname" . }}-indexer
+      app: {{ include "interbtc-hydra.fullname" . }}
+      component: indexer
   template:
     metadata:
       labels:
         {{- include "interbtc-hydra.selectorLabels" . | nindent 8 }}
-        app: {{ include "interbtc-hydra.fullname" . }}-indexer
+        app: {{ include "interbtc-hydra.fullname" . }}
+        component: indexer
     spec:
       volumes:
         - name: hydra-config

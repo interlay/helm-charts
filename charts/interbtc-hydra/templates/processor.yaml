@@ -9,7 +9,8 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "interbtc-hydra.fullname" . }}-processor
+      app: {{ include "interbtc-hydra.fullname" . }}
+      component: processor
   template:
     metadata:
     {{- with .Values.hydra.processor.podAnnotations }}
@@ -17,7 +18,8 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        app: {{ include "interbtc-hydra.fullname" . }}-processor
+        app: {{ include "interbtc-hydra.fullname" . }}
+        component: processor
     spec:
       volumes:
         - name: hydra-config
