@@ -27,12 +27,21 @@ spec:
         - name: hydra-config
           configMap:
             name: {{ include "interbtc-hydra.fullname" . }}-types
+      initContainers:
+        - name: dbmigration
+          image: {{ .Values.hydra.processor.image.repository }}:{{ .Values.hydra.processor.image.tag }}
+          imagePullPolicy: {{ .Values.hydra.processor.image.pullPolicy }}
+          command: [sh, -c]
+          args:
+            - |-
+              yarn db:migrate
+          envFrom:
+          - secretRef:
+              name: {{ .Values.hydra.processor.dbSecretName }}
       containers:
         - name: hydra-processor
           image: {{ .Values.hydra.processor.image.repository }}:{{ .Values.hydra.processor.image.tag }}
           imagePullPolicy: {{ .Values.hydra.processor.image.pullPolicy }}
-          # command: [./node_modules/.bin/hydra-cli, db:migrate]
-          # command: [./node_modules/.bin/hydra-processor, migrate]
           envFrom:
           - secretRef:
               name: {{ .Values.hydra.processor.dbSecretName }}

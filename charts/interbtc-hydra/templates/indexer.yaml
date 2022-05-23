@@ -23,6 +23,17 @@ spec:
         - name: hydra-config
           configMap:
             name: {{ include "interbtc-hydra.fullname" . }}-types
+      initContainers:
+        - name: dbmigration
+          image: {{ .Values.hydra.indexer.image.repository }}:{{ .Values.hydra.indexer.image.tag }}
+          imagePullPolicy: {{ .Values.hydra.indexer.image.pullPolicy }}
+          command: [sh, -c]
+          args:
+            - |-
+              yarn db:migrate
+          envFrom:
+          - secretRef:
+              name: {{ .Values.hydra.indexer.dbSecretName }}
       containers:
         - name: hydra-indexer
           image: {{ .Values.hydra.indexer.image.repository }}:{{ .Values.hydra.indexer.image.tag }}
