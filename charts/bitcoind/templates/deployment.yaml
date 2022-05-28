@@ -77,7 +77,7 @@ spec:
               subPath: bitcoin.conf
             {{- end }}
           ports:
-            - name: exporeter
+            - name: exporter
               containerPort: {{ int .Values.metrics.port }}
           livenessProbe:
             httpGet:
@@ -115,6 +115,9 @@ spec:
             {{- range .Values.electrs.extraArgs }}
             - {{ . }}
             {{- end }}
+          ports:
+            - name: http
+              containerPort: 3000
           volumeMounts:
             - name: data
               mountPath: /home/bitcoin/.bitcoin/

@@ -22,14 +22,16 @@ spec:
       targetPort: p2p
     - name: testnet
       port: {{ .Values.service.testnetPort }}
+      targetPort: testnet
     - name: testnetp2p
       port: {{ .Values.service.testnetP2pPort }}
+      targetPort: testnetp2pport
     - port: 3000
-      targetPort: 3000
+      targetPort: http
       protocol: TCP
       name: electrs-mainnet
     - port: 3001
-      targetPort: 3001
+      targetPort: http
       protocol: TCP
       name: electrs-testnet
   selector:
