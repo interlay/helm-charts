@@ -143,6 +143,8 @@ spec:
             {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
           env:
             {{- include "settings" $ | nindent 10 }}
@@ -163,8 +165,6 @@ spec:
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           {{- end }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
           {{- if .Values.nodeKey.enabled }}
           - name: node-key
@@ -187,6 +187,7 @@ spec:
   - metadata:
       name: {{ .Chart.Name }}-state
     spec:
+      storageClassName: {{ .Values.persistence.storageClassName }}
       accessModes:
         - {{ .Values.persistence.accessMode | quote }}
       resources:

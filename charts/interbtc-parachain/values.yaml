@@ -60,6 +60,7 @@ persistence:
   accessMode: ReadWriteOnce
   size: 32Gi
   reclaimPolicy: Retain
+  # storageClassName: default
 
 # Apply extra labels to common labels.
 extraLabels: {}
