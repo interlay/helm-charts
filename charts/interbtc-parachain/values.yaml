@@ -1,5 +1,9 @@
 replicaCount: 1
 
+failsafeMode:
+  enabled: false
+  image: docker.io/library/ubuntu:20.04
+
 image:
   repository: "interlayhq/interbtc"
   pullPolicy: IfNotPresent
@@ -32,6 +36,8 @@ rpc:
 
 monitoring:
   enabled: true
+  serviceMonitor:
+    enabled: false
 
 serviceRpc:
   type: ClusterIP

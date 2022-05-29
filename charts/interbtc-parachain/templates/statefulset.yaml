@@ -30,8 +30,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "polkabtc.serviceAccountName" . }}
+      {{- if (not .Values.failsafeMode.enabled) }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
       initContainers:
       {{- if .Values.chainspecLoader.enabled }}
       - name: chainspec-loader
@@ -91,8 +93,29 @@ spec:
       {{- end }}
       containers:
         - name: parachain
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- if .Values.failsafeMode.enabled }}
+          image: "{{ .Values.failsafeMode.image }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [bash, -c]
+          args:
+            - |
+              #!/bin/bash
+              echo "This is a idle script (infinite loop) to keep container running."
+
+              cleanup ()
+              {
+                kill -s SIGTERM $!
+                exit 0
+              }
+
+              trap cleanup SIGINT SIGTERM
+
+              while [ 1 ]
+              do
+                sleep 60 &
+                wait $!
+              done
+          {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
@@ -118,6 +141,9 @@ spec:
              {{- range .Values.args }}
             - {{ . }}
             {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- end }}
           env:
             {{- include "settings" $ | nindent 10 }}
           ports:
@@ -129,11 +155,11 @@ spec:
               containerPort: 9944
             - name: metrics
               containerPort: 9615
-          {{- if .Values.livenessProbe }}
+          {{- if and .Values.livenessProbe (not .Values.failsafeMode.enabled) }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           {{- end }}
-          {{- if .Values.readinessProbe }}
+          {{- if and .Values.readinessProbe (not .Values.failsafeMode.enabled) }}
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           {{- end }}
