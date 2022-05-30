@@ -14,5 +14,9 @@ spec:
       name: websocket-rpc
       protocol: TCP
       targetPort: websocket-rpc
+    - port: 9615
+      name: metrics
+      protocol: TCP
+      targetPort: metrics
   selector:
     {{- include "polkabtc.selectorLabels" . | nindent 4 }}
