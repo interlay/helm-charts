@@ -12,6 +12,10 @@ fullnameOverride: ""
 basePath: "/btc-parachain"
 binary: interbtc-parachain
 
+failsafeMode:
+  enabled: false
+  image: docker.io/library/ubuntu:20.04
+
 args:
   - --dev
   - --rpc-external
