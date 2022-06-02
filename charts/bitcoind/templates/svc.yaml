@@ -34,6 +34,10 @@ spec:
       targetPort: http
       protocol: TCP
       name: electrs-testnet
+    - port: {{ int .Values.metrics.port }}
+      targetPort: exporter
+      protocol: TCP
+      name: metrics
   selector:
     app: {{ template "bitcoind.name" . }}
     release: {{ .Release.Name }}
