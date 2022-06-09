@@ -149,6 +149,7 @@ livenessProbe:
   timeoutSeconds: 10
 chainspecLoader:
   enabled: true
+  image: docker.io/curlimages/curl:latest
   urls: []
 
 activateKeysJob:

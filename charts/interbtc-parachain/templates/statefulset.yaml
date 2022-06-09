@@ -37,12 +37,12 @@ spec:
       initContainers:
       {{- if .Values.chainspecLoader.enabled }}
       - name: chainspec-loader
-        image: busybox:1.34
+        image: {{ .Values..chainspecLoader.image }}
         command: ["sh","-c"]
         args:
         - |-
           {{- range .Values.chainspecLoader.urls }}
-          wget -O /chainspec/{{ .filename }} {{ .url }}
+          curl -Lo /chainspec/{{ .filename }} {{ .url }}
           {{- end }}
         volumeMounts:
         - name: chainspec-data
