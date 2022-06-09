@@ -37,7 +37,7 @@ spec:
       initContainers:
       {{- if .Values.chainspecLoader.enabled }}
       - name: chainspec-loader
-        image: {{ .Values..chainspecLoader.image }}
+        image: {{ .Values.chainspecLoader.image }}
         command: ["sh","-c"]
         args:
         - |-
