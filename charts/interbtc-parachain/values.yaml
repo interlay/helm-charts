@@ -131,7 +131,7 @@ environment:
   inline: {}
 
 readinessProbe:
-  failureThreshold: 5
+  failureThreshold: 10
   httpGet:
     path: /health
     port: http-rpc
@@ -141,7 +141,7 @@ readinessProbe:
   timeoutSeconds: 10
 
 livenessProbe:
-  failureThreshold: 5
+  failureThreshold: 10
   httpGet:
     path: /health
     port: http-rpc
@@ -150,12 +150,12 @@ livenessProbe:
   successThreshold: 1
   timeoutSeconds: 10
 chainspecLoader:
-  enabled: true
+  enabled: false
   image: docker.io/curlimages/curl:latest
   urls: []
 
 activateKeysJob:
-  enabled: true
+  enabled: false
   secretName:
 
 snapshotDownload:
