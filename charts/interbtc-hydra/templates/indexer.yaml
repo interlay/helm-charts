@@ -45,6 +45,8 @@ spec:
           env:
             - name: WORKERS_NUMBER
               value: {{ .Values.hydra.indexer.workers | quote }}
+            - name: INDEXER_WORKERS
+              value: {{ .Values.hydra.indexer.workers | quote }}
             - name: BATCH_SIZE
               value: {{ .Values.hydra.indexer.batchSize | quote }}
             - name: REDIS_URI
@@ -55,6 +57,8 @@ spec:
               value: "{{ .Values.rpc_node }}"
             - name: TYPES_JSON
               value: /etc/hydra/types.json
+            - name: BUNDLE_TYPES
+              value: /etc/hydra/typesBundle.json
           volumeMounts:
             - name: hydra-config
               mountPath: /etc/hydra/
