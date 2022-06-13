@@ -143,10 +143,6 @@ spec:
              {{- range .Values.args }}
             - {{ . }}
             {{- end }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
           env:
             {{- include "settings" $ | nindent 10 }}
