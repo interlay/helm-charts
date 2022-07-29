@@ -132,8 +132,8 @@ spec:
             - --unsafe-ws-external
             - --rpc-methods=Unsafe
               {{- else }}
-            - --safe-rpc-external
-            - --safe-ws-external
+            - --rpc-external
+            - --ws-external
             - --rpc-methods=Safe
               {{- end }}
             - --rpc-cors=all
