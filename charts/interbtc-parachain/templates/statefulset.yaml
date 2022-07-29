@@ -127,9 +127,15 @@ spec:
             - --base-path={{ .Values.basePath }}
             - --name={{ .Values.nodeName | default .Release.Name }}
             {{- if .Values.rpc.enabled }}
+              {{- if .Values.rpc.unsafe }}
             - --unsafe-rpc-external
             - --unsafe-ws-external
             - --rpc-methods=Unsafe
+              {{- else }}
+            - --safe-rpc-external
+            - --safe-ws-external
+            - --rpc-methods=Safe
+              {{- end }}
             - --rpc-cors=all
             {{- end }}
             {{- if .Values.telemetry.enabled }}

@@ -33,6 +33,7 @@ telemetry:
 
 rpc:
   enabled: true
+  unsafe: true
 
 monitoring:
   enabled: true
