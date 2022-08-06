@@ -1,10 +1,10 @@
 # Default values for bitcoind.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-terminationGracePeriodSeconds: 30
+terminationGracePeriodSeconds: 360
 image:
   repository: ruimarinho/bitcoin-core
-  tag: 0.21.0
+  tag: 0.22.0
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 
@@ -21,14 +21,16 @@ nodeSelector: {}
 tolerations: {}
 
 metrics:
-  enabled: true
+  enabled: false
   port: 9332
+  image: jvstein/bitcoin-prometheus-exporter:v0.7.0
   resources:
     requests:
       memory: 64Mi
     limits:
       memory: 64Mi
-      cpu: 50m
+
+extraEnv: []
 
 persistence:
   enabled: true

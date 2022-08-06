@@ -57,6 +57,10 @@ spec:
               containerPort: {{ .Values.service.testnetPort }}
             - name: testnetp2pport
               containerPort: {{ .Values.service.testnetP2pPort }}
+          env:
+          {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: data
               mountPath: /home/bitcoin/.bitcoin/
@@ -66,7 +70,7 @@ spec:
               subPath: bitcoin.conf
             {{- end }}
         - name: metrics-exporter
-          image: jvstein/bitcoin-prometheus-exporter:v0.7.0
+          image: {{ .Values.metrics.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           resources:
 {{ toYaml .Values.metrics.resources | indent 12 }}
