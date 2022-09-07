@@ -15,7 +15,8 @@ hydra:
       repository: "docker.io/interlayhq/interbtc-hydra-processor"
       pullPolicy: IfNotPresent
       tag: "master-2c6e16e-1637088364"
-    podAnnotations: {}
+    podAnnotations:
+      {}
       # prometheus.io/scrape: "true"
       # prometheus.io/port: "3000"
   status:
@@ -29,6 +30,9 @@ hydra:
       repository: "docker.io/subsquid/hydra-indexer-gateway"
       pullPolicy: IfNotPresent
       tag: "5.0.0-alpha.37"
+  queryNode:
+    replicas: 2
+    dbSecretName: "processor-db-secret"
 
 redis: "redis://hydra-redis-master:6379/0"
 rpc_node: "ws://interbtc-rpc:9944"

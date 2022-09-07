@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "interbtc-hydra.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.hydra.queryNode.replicas }}
   selector:
     matchLabels:
       {{- include "interbtc-hydra.selectorLabels" . | nindent 6 }}
@@ -33,7 +33,7 @@ spec:
               name: http
           envFrom:
           - secretRef:
-              name: {{ .Values.hydra.processor.dbSecretName }}
+              name: {{ .Values.hydra.queryNode.dbSecretName }}
           env:
             - name: WORKERS_NUMBER
               value: "5"
