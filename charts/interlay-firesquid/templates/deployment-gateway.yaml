@@ -34,6 +34,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.gateway.image }}"
           imagePullPolicy: {{ .Values.gateway.imagePullPolicy }}
+          {{- with .Values.gateway.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
           {{- with .Values.gateway.env }}
             {{- toYaml . | nindent 12 }}

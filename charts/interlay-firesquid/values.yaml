@@ -13,9 +13,7 @@ ingest:
   imagePullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
-  args:
-    - -e ws://interbtc-rpc.interbtc-parachain:9944
-    - --out=postgres://squid_interlay_owner_user:sexXjXmKavhh0rOiucr2WdabJ1ZWTDrI5Fpt26UGOBjXQuJGFpYLrqbpfeJQmeNV@interlay-prod.postgresql.svc.cluster.local:5432/squid_interlay_archive
+  args: []
   env: []
   secretName: ''
 
@@ -24,8 +22,7 @@ gateway:
   imagePullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
-  args:
-    - --database-url=postgres://squid_kintsugi_dev_owner_user:wkwRe4t7FHN5HMOMO3OtviqpwH0y852CsvIqFdTY1gkBfYMRuLSCdFkE6RGkvGLd@interlay-dev.postgresql.svc.cluster.local:5432/squid_kintsugi_dev_archive
+  args: []
   env: []
 
 processor:
