@@ -40,7 +40,7 @@ spec:
             - --subscriptions
           env:
             - name: ARCHIVE_ENDPOINT
-              value: http://{{ include "interlay-firesquid.fullname" . }}-query-node/graphql
+              value: http://{{ include "interlay-firesquid.fullname" . }}-gateway/graphql
           {{- with .Values.queryNode.env }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
