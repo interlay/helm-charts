@@ -45,7 +45,7 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
             - name: ARCHIVE_ENDPOINT
-              value: http://{{ include "interlay-firesquid.fullname" . }}-query-node/graphql
+              value: http://{{ include "interlay-firesquid.fullname" . }}-gateway/graphql
             - name: CHAIN_ENDPOINT
               value: {{ .Values.parachainRpc }}
           envFrom:
