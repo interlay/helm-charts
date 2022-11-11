@@ -1,0 +1,100 @@
+queryNode:
+  image: docker.io/interlayhq/interbtc-hydra-processor:0.10.5
+  imagePullPolicy: IfNotPresent
+  replicaCount: 2
+  resources: {}
+  env: []
+  secretName: ''
+
+parachainRpc: ws://interbtc-rpc.interbtc-parachain:9944
+
+ingest:
+  image: docker.io/subsquid/substrate-ingest:firesquid
+  imagePullPolicy: IfNotPresent
+  replicaCount: 1
+  resources: {}
+  args:
+    - -e ws://interbtc-rpc.interbtc-parachain:9944
+    - --out=postgres://squid_interlay_owner_user:sexXjXmKavhh0rOiucr2WdabJ1ZWTDrI5Fpt26UGOBjXQuJGFpYLrqbpfeJQmeNV@interlay-prod.postgresql.svc.cluster.local:5432/squid_interlay_archive
+  env: []
+  secretName: ''
+
+gateway:
+  image: docker.io/subsquid/substrate-gateway:firesquid
+  imagePullPolicy: IfNotPresent
+  replicaCount: 1
+  resources: {}
+  args:
+    - --database-url=postgres://squid_kintsugi_dev_owner_user:wkwRe4t7FHN5HMOMO3OtviqpwH0y852CsvIqFdTY1gkBfYMRuLSCdFkE6RGkvGLd@interlay-dev.postgresql.svc.cluster.local:5432/squid_kintsugi_dev_archive
+  env: []
+
+processor:
+  image: docker.io/interlayhq/interbtc-hydra-processor:0.10.5
+  imagePullPolicy: IfNotPresent
+  replicaCount: 1
+  resources: {}
+  args: []
+  env: []
+  secretName: ''
+# ------
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  capabilities:
+    drop:
+      - all
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

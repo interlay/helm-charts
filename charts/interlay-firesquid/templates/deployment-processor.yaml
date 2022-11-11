@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "interlay-firesquid.fullname" . }}-processor
+  labels:
+    {{- include "interlay-firesquid.labels" . | nindent 4 }}
+    app.kubernetes.io/component: substrate-processor
+spec:
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.processor.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "interlay-firesquid.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: substrate-processor
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "interlay-firesquid.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: substrate-processor
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "interlay-firesquid.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: processor
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.processor.image }}"
+          imagePullPolicy: {{ .Values.processor.imagePullPolicy }}
+          {{- with .Values.processor.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+          {{- with .Values.processor.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+            - name: ARCHIVE_ENDPOINT
+              value: http://{{ include "interlay-firesquid.fullname" . }}-query-node/graphql
+            - name: CHAIN_ENDPOINT
+              value: {{ .Values.parachainRpc }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.processor.secretName }}
+          ports:
+            - name: metrics
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+          readinessProbe:
+            tcpSocket:
+              port: metrics
+          resources:
+            {{- toYaml .Values.processor.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

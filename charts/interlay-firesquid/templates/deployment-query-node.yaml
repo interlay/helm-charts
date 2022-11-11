@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "interlay-firesquid.fullname" . }}-query-node
+  labels:
+    {{- include "interlay-firesquid.labels" . | nindent 4 }}
+    app.kubernetes.io/component: substrate-query-node
+spec:
+  replicas: {{ .Values.queryNode.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "interlay-firesquid.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: substrate-query-node
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "interlay-firesquid.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: substrate-query-node
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "interlay-firesquid.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: query-node
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.queryNode.image }}"
+          imagePullPolicy: {{ .Values.queryNode.imagePullPolicy }}
+          command: ["tini", "--"]
+          args:
+            - ./node_modules/.bin/squid-graphql-server
+            - --subscriptions
+          env:
+            - name: ARCHIVE_ENDPOINT
+              value: http://{{ include "interlay-firesquid.fullname" . }}-query-node/graphql
+          {{- with .Values.queryNode.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.queryNode.secretName }}
+          ports:
+            - name: http
+              containerPort: 4000
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /graphql
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /graphql
+              port: http
+          resources:
+            {{- toYaml .Values.queryNode.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "interlay-firesquid.fullname" . }}-ingest
+  labels:
+    {{- include "interlay-firesquid.labels" . | nindent 4 }}
+    app.kubernetes.io/component: substrate-ingest
+spec:
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.ingest.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "interlay-firesquid.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: substrate-ingest
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "interlay-firesquid.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: substrate-ingest
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "interlay-firesquid.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: ingest
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.ingest.image }}"
+          imagePullPolicy: {{ .Values.ingest.imagePullPolicy }}
+          {{- with .Values.ingest.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+          {{- with .Values.ingest.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.ingest.secretName }}
+          ports:
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+          readinessProbe:
+            tcpSocket:
+              port: metrics
+          resources:
+            {{- toYaml .Values.ingest.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
