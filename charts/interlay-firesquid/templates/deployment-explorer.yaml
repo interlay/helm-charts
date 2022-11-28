@@ -42,6 +42,9 @@ spec:
           {{- with .Values.explorer.env }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.explorer.secretName }}
           ports:
             - name: http
               containerPort: 3000
