@@ -48,11 +48,11 @@ spec:
               protocol: TCP
           readinessProbe:
             httpGet:
-              path: /
+              path: /graphql
               port: http
           livenessProbe:
             httpGet:
-              path: /
+              path: /graphql
               port: http
           resources:
             {{- toYaml .Values.explorer.resources | nindent 12 }}
