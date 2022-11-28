@@ -33,6 +33,15 @@ processor:
   args: []
   env: []
   secretName: ''
+
+explorer:
+  image: docker.io/subsquid/substrate-explorer:firesquid
+  imagePullPolicy: IfNotPresent
+  replicaCount: 1
+  resources: {}
+  args: []
+  env: []
+  secretName: ''
 # ------
 
 imagePullSecrets: []
