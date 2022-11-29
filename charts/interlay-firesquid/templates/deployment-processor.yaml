@@ -30,6 +30,18 @@ spec:
       serviceAccountName: {{ include "interlay-firesquid.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: dbmigrations
+          args:
+          - yarn db:migrate
+          command:
+          - sh
+          - -c
+          envFrom:
+          - secretRef:
+              name: {{ .Values.processor.secretName }}
+          image: "{{ .Values.processor.image }}"
+          imagePullPolicy: {{ .Values.processor.imagePullPolicy }}
       containers:
         - name: processor
           securityContext:
