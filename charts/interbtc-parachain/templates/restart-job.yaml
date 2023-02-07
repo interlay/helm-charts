@@ -3,7 +3,7 @@
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: deployment-restart
+  name: {{ include "polkabtc.fullname" . }}-deployment-restart
   namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": post-install
@@ -12,7 +12,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: deployment-restart
+  name: {{ include "polkabtc.fullname" . }}-deployment-restart
   namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": post-install
@@ -27,7 +27,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: deployment-restart
+  name: {{ include "polkabtc.fullname" . }}-deployment-restart
   namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": post-install
@@ -35,10 +35,10 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: deployment-restart
+  name: {{ include "polkabtc.fullname" . }}-deployment-restart
 subjects:
   - kind: ServiceAccount
-    name: deployment-restart
+    name: {{ include "polkabtc.fullname" . }}-deployment-restart
 ---
 apiVersion: batch/v1
 kind: Job
@@ -53,7 +53,7 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: deployment-restart
+      serviceAccountName: {{ include "polkabtc.fullname" . }}-deployment-restart
       restartPolicy: Never
       containers:
         - name: kubectl
