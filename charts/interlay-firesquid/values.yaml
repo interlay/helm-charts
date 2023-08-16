@@ -5,6 +5,7 @@ queryNode:
   resources: {}
   env: []
   secretName: ''
+  extraArgs: []
 
 parachainRpc: ws://interbtc-rpc.interbtc-parachain:9944
 

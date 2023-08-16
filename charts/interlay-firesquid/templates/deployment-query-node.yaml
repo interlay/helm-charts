@@ -38,6 +38,9 @@ spec:
           args:
             - ./node_modules/.bin/squid-graphql-server
             - --subscriptions
+            {{- if .Values.queryNode.extraArgs }}
+{{ toYaml .Values.queryNode.extraArgs | indent 12 }}
+            {{- end }}
           env:
             - name: ARCHIVE_ENDPOINT
               value: http://{{ include "interlay-firesquid.fullname" . }}-gateway/graphql
