@@ -545,6 +545,16 @@ entries:
   interlay-firesquid:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-08-16T08:43:09.220965712Z"
+    description: A Helm chart for Kubernetes
+    digest: 390bb7b17652b08a1483bc9d374c56549b9a43cbc71bad4b93fa2466032b56f0
+    name: interlay-firesquid
+    type: application
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/interlay-firesquid-0.1.11/interlay-firesquid-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-08-16T05:59:07.87122454Z"
     description: A Helm chart for Kubernetes
     digest: 3006e12d074295a80eec55191a9b72a0924b19f0f2a6b92df4aa9a4769d0671a
@@ -1075,4 +1085,4 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.10/polkabtc-vault-0.1.10.tgz
     version: 0.1.10
-generated: "2023-08-16T05:59:07.871582046Z"
+generated: "2023-08-16T08:43:09.222012459Z"
