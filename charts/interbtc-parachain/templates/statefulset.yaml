@@ -129,7 +129,6 @@ spec:
             {{- if .Values.rpc.enabled }}
               {{- if .Values.rpc.unsafe }}
             - --unsafe-rpc-external
-            - --unsafe-ws-external
             - --rpc-methods=Unsafe
               {{- else }}
             - --rpc-external
