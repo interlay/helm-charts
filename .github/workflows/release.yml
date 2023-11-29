@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -22,10 +22,10 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
-          version: v3.10.2
+          version: v3.13.0
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.4.1
+        uses: helm/chart-releaser-action@v1.6.0
         with:
           charts_repo_url: http://helm.interlay.io/
         env:
