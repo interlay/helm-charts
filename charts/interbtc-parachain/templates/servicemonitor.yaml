@@ -12,6 +12,8 @@ spec:
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
+  targetLabels:
+    - parachain
   endpoints:
   - port: metrics
 {{- end }}
