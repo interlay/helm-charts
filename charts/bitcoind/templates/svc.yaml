@@ -17,15 +17,7 @@ spec:
     - name: rpc
       port: {{ .Values.service.rpcPort }}
       targetPort: rpc
-    - name: p2p
-      port: {{ .Values.service.p2pPort }}
-      targetPort: p2p
-    - name: testnet
-      port: {{ .Values.service.testnetPort }}
-      targetPort: testnet
-    - name: testnetp2p
-      port: {{ .Values.service.testnetP2pPort }}
-      targetPort: testnetp2pport
+      {{- if .Values.electrs.enabled }}
     - port: 3000
       targetPort: http
       protocol: TCP
@@ -34,10 +26,13 @@ spec:
       targetPort: http
       protocol: TCP
       name: electrs-testnet
+      {{- end }}
+      {{- if .Values.metrics.enabled }}
     - port: {{ int .Values.metrics.port }}
       targetPort: exporter
       protocol: TCP
       name: metrics
+      {{- end }}
   selector:
     app: {{ template "bitcoind.name" . }}
     release: {{ .Release.Name }}

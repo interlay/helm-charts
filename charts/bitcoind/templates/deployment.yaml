@@ -51,12 +51,6 @@ spec:
           ports:
             - name: rpc
               containerPort: {{ .Values.service.rpcPort }}
-            - name: p2p
-              containerPort: {{ .Values.service.p2pPort }}
-            - name: testnet
-              containerPort: {{ .Values.service.testnetPort }}
-            - name: testnetp2pport
-              containerPort: {{ .Values.service.testnetP2pPort }}
           env:
           {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
