@@ -1,7 +1,7 @@
 apiVersion: v2
 name: bitcoind
-version: 1.1.9
-appVersion: 28.1
+version: 1.1.10
+appVersion: 28.1.0
 description: Bitcoin is an innovative payment network and a new kind of money.
 keywords:
   - bitcoind

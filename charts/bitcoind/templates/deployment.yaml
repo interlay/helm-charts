@@ -90,7 +90,7 @@ spec:
             - name: METRICS_PORT
               value: {{ .Values.metrics.port | quote }}
             - name: BITCOIN_RPC_PORT
-              value: {{ .Values.rpcPort | quote }}
+              value: {{ .Values.service.rpcPort | quote }}
             - name: BITCOIN_RPC_HOST
               value: localhost
             - name: BITCOIN_RPC_USER
