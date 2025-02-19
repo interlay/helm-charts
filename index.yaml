@@ -3,6 +3,30 @@ entries:
   bitcoind:
   - apiVersion: v2
     appVersion: 0.21.0
+    created: "2025-02-19T07:07:35.299437477Z"
+    description: Bitcoin is an innovative payment network and a new kind of money.
+    digest: 8a037af0c0592ad331d8c8e1a99635a25b2533e0afad59d3e19ae1a6f4b0bac8
+    home: https://bitcoin.org/
+    icon: https://bitcoin.org/img/icons/logotop.png
+    keywords:
+    - bitcoind
+    - cryptocurrency
+    - blockchain
+    maintainers:
+    - email: daniel@arilot.com
+      name: daniel-yavorovich
+    - email: shiyanval@gmail.com
+      name: govale
+    name: bitcoind
+    sources:
+    - https://github.com/kubernetes/charts
+    - https://github.com/kuberstack/bitcoind
+    - https://github.com/kylemanna/docker-bitcoind
+    urls:
+    - https://github.com/interlay/helm-charts/releases/download/bitcoind-1.1.7/bitcoind-1.1.7.tgz
+    version: 1.1.7
+  - apiVersion: v2
+    appVersion: 0.21.0
     created: "2022-08-06T07:49:45.701552343Z"
     description: Bitcoin is an innovative payment network and a new kind of money.
     digest: 34174158d6bc8eec29caa83a42aa4546bcdf1898748c619cc15a8ef8a2936f80
@@ -1127,4 +1151,4 @@ entries:
     urls:
     - https://github.com/interlay/helm-charts/releases/download/polkabtc-vault-0.1.10/polkabtc-vault-0.1.10.tgz
     version: 0.1.10
-generated: "2023-11-29T10:56:53.685100775Z"
+generated: "2025-02-19T07:07:35.299617053Z"
