@@ -69,6 +69,7 @@ spec:
               mountPath: /home/bitcoin/.bitcoin/bitcoin.conf
               subPath: bitcoin.conf
             {{- end }}
+      {{- if .Values.metrics.enabled }}
         - name: metrics-exporter
           image: {{ .Values.metrics.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -102,6 +103,7 @@ spec:
               value: {{ .Values.rpcUser | quote }}
             - name: BITCOIN_RPC_PASSWORD
               value: {{ .Values.rpcPassword | quote }}
+      {{- end }}
       {{- if .Values.electrs.enabled }}
         - name: electrs
           image: {{ .Values.electrs.image }}

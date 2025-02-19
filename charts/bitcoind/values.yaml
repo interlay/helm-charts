@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 terminationGracePeriodSeconds: 360
 image:
-  repository: ruimarinho/bitcoin-core
-  tag: 0.22.0
+  repository: docker.io/bitcoin/bitcoin
+  tag: 28.1-alpine
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 
@@ -23,7 +23,7 @@ tolerations: {}
 metrics:
   enabled: false
   port: 9332
-  image: jvstein/bitcoin-prometheus-exporter:v0.7.0
+  image: docker.io/jvstein/bitcoin-prometheus-exporter:v0.7.0
   resources:
     requests:
       memory: 64Mi
