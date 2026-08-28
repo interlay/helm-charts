@@ -25,3 +25,9 @@ To upgrade the `my-release` deployment:
 ```bash
 helm upgrade --namespace my-namespace --values values.yaml my-release ./
 ```
+
+## RPC endpoint benchmarks
+
+OpenChainBench continuously measures `chain_getHeader` latency for public Interlay RPC endpoints (OnFinality, Dwellir, Interlay official) from 3 regions every 60s.
+
+Live results: https://openchainbench.com/benchmarks/interlay-rpc
